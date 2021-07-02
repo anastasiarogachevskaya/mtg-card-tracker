@@ -1,12 +1,7 @@
 
 import React, { FC, ReactNode } from 'react';
 import styled from 'styled-components';
-import Card from './Card';
-
-export type CardProps = {
-  id: string,
-  data: {},
-}
+import Card, { CardProps } from './Card';
 
 export type ListingProps = {
   listing: CardProps[],
@@ -24,7 +19,15 @@ const ResultList: FC<ListingProps> = ({ listing }) => {
   return (
     <Wrapper>
       {listing.map((card) => {
-        return <Card key={card.id} data={card} />
+        return <Card 
+          key={card.id}
+          id={card.id}
+          image_uris={card.image_uris} 
+          object={card.object}
+          set={card.set}
+          collector_number={card.collector_number}
+          name={card.name}
+        />
       })}
     </Wrapper>
   )
