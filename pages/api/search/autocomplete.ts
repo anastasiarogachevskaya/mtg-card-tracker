@@ -11,9 +11,6 @@ export default async function handler(
   res: NextApiResponse<Data>
 ) {
   const { q } = req.query;
-  if(q === undefined || q.length < 1) {
-    res.status(404)
-  }
-  const { data } = await axios(`https://api.scryfall.com/cards/search/?q=${q}`);
+  const { data } = await axios(`https://api.scryfall.com/cards/autocomplete?q=${q}`);
   res.status(200).json(data);
 }

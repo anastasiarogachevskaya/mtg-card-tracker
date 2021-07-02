@@ -1,21 +1,7 @@
-import axios from 'axios'
 import Head from 'next/head'
-import React, { useState } from 'react'
-import Header from '../components/Header/Header'
-import ResultList from '../components/ResultList'
-import SearchForm from '../components/SearchForm'
+import React from 'react'
 
 export default function Home() {
-  // const [totalCards, setTotalCards] = useState(0);
-  // const [hasMore, setHasMore] = useState(false);
-  // const [cardListing, setCardListing] = useState([]);
-
-  // const findCards = async (string:string) => {
-  //   const { data } = await axios(`/api/search?q=${string}`);
-  //   setTotalCards(data.total_cards);
-  //   setHasMore(data.has_more);
-  //   setCardListing(data.data);
-  // } 
   return (
     <div>
       <Head>
@@ -24,8 +10,7 @@ export default function Home() {
       </Head>
 
       <main>
-        {/* {totalCards > 0 && totalCards}
-        <ResultList listing={cardListing} />  */}
+
       </main>
 
       <footer>
