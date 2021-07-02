@@ -1,9 +1,13 @@
 import styled from "styled-components";
 
-const InputField = styled.input`
+type InputField = {
+  withButton?: boolean;
+}
+
+const InputField = styled.input<InputField>`
   background: #f0f0f0;
   border: none;
-  border-radius: 5px;
+  border-radius: ${({ withButton }) => withButton ? '5px 0 0 5px' : '5px'};
   box-shadow: inset 0 1px 3px 0 rgb(0 0 0 / 8%);
   color: #666;
   font-size: 16px;
