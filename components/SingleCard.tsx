@@ -34,6 +34,7 @@ export type CardProps = {
     reprint: boolean;
     promo: boolean;
     collector_number: number;
+    prices: string[]
   },
   
 }
@@ -47,6 +48,10 @@ export type CMCProps = {
   type: string;
   title: string;
   class: string;
+}
+
+export type BProps = {
+  uppercase?: boolean;
 }
 
 const Wrapper = styled.article`
@@ -101,7 +106,7 @@ const FlavorText = styled.div`
   font-weight: 100;
   font-style: italic;
 `;
-const StyledB = styled.strong`
+const StyledB = styled.strong<BProps>`
   ${({ uppercase }) => uppercase && `text-transform: uppercase`};
   font-family: sofia-pro,sans-serif;
 `;
@@ -148,15 +153,15 @@ const SingleCard: FC<CardProps> = ({ data }) => {
   const newDate = Intl.DateTimeFormat("fi-FI").format(new Date(data.released_at));
   const cmc = getManaCost(data.mana_cost) as CMCProps[];
   const imageSRC = data.image_uris?.normal || data.image_uris?.png || data.image_uris?.small || data.image_uris?.large || data.image_uris?.border_crop; 
-  const prices = Object.keys(data.prices).map(key => {
+  const prices = Object.keys(data.prices).map((key) => {
     const currency = key.replace('_', ' ');
-    
+    const price = data.prices[key];
     return (
       <>
         <StyledB uppercase>
           {currency}
         </StyledB>
-        <StyledText>{data.prices[key]}</StyledText>
+        <StyledText>{price}</StyledText>
       </>
   )});
   return (
