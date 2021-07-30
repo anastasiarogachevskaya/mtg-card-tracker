@@ -1,0 +1,13 @@
+# Docker-compose overrides for local development purposes
+#
+# To enable overrides, copy the file into docker-compose.override.yml
+version: "3.8"
+
+services:
+  app:
+    volumes:
+      - ".:/usr/src/app"
+    # command: "npm run storybook" # Override startup command to run Storybook
+    ports:
+      - "80:3000"
+      

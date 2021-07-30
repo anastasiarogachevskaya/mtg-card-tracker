@@ -1,0 +1,15 @@
+version: "3.8"
+
+services:
+  app:
+    build:
+      context: "."
+      target: "base"
+    volumes:
+      - "node_modules_volume:/usr/src/app/node_modules"
+    environment:
+      - "API_HOST=https://api.scryfall.com/"
+    command: "npm run dev"
+
+volumes:
+  node_modules_volume:
