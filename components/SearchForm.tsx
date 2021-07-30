@@ -51,7 +51,6 @@ const SearchForm = ({ onSearch }:any) => {
   }
   const onSuggestHandler = (text:string) => {
     setSearchString(text);
-    onSearch(text);
     setSuggestions([]);
   }
 

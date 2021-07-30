@@ -8,6 +8,7 @@ class MyDocument extends Document {
           <meta charSet="UTF-8" />
           <meta httpEquiv="X-UA-Compatible" content="ie=edge" />
           <link rel="icon" href="/favicon.ico" />
+          <link rel="stylesheet" href="https://use.typekit.net/gue4rso.css" />
         </Head>
         <body>
           <Main />

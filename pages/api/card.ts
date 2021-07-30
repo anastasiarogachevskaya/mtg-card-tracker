@@ -10,11 +10,9 @@ export default async function handler(
   req: NextApiRequest,
   res: NextApiResponse<Data>
 ) {
-  const { q } = req.query;
-  
-  if(q === undefined || q.length < 1) {
-    res.status(404)
-  }
-  const { data } = await axios(`https://api.scryfall.com/cards/search/?q=${q}`);
+  const { set, number } = req.query;
+  console.log(req.query)
+  const { data } = await axios(`https://api.scryfall.com/cards/${set}/${number}`);
   res.status(200).json(data);
+  res.status(200);
 }
