@@ -13,10 +13,11 @@ services:
       - "API_HOST=https://api.scryfall.com/"
     command: "npm run dev"
     depends_on:
-      - mongo
+      - mongodb
 
   mongo:
     image: mongo
+    container_name: mongodb
     restart: always
     environment:
       MONGO_INITDB_ROOT_USERNAME: root
