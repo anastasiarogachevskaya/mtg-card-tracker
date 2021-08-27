@@ -11,7 +11,7 @@ services:
       - "node_modules_volume:/usr/src/app/node_modules"
     environment:
       API_HOST: https://api.scryfall.com/
-      MONGO_DB_NAME: mtg
+      MONGODB_DB: mtg
     command: "npm run dev"
     depends_on:
       - mongodb
