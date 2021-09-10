@@ -35,3 +35,4 @@ yarn-error.log*
 docker-compose.override.yml
 .env
 data/*
+bulkdata/*
