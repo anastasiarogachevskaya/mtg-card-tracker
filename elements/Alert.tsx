@@ -18,7 +18,6 @@ const warning = css`
   color: #856404;
   background-color: #fff3cd;
   border-color: #ffeeba;
-  max-width: 100%;
 `;
 
 const types = { error, warning, success };

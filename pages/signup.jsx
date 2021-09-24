@@ -87,7 +87,7 @@ export default function SignUp() {
     <Container>
       <Title>Create account</Title>
       <Box>
-        {message && <Alert type={type}>{message}</Alert> }
+        {message && <Alert type={type} center width={250}>{message}</Alert> }
         <Form method="post" onSubmit={onFormSubmit} >
           <InputField name="csrfToken" type="hidden" />
           <StyledInput type="email" name="email" id="email" placeholder="Email" ref={emailRef} />
