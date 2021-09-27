@@ -30,7 +30,7 @@ const Provider = styled.div`
 `;
 const IconWrapper = styled.button`
   background-color: #FFF;
-  border: 2px solid #1A2E35;
+  border: 2px solid #000;
   border-radius: 50%;
   color: #1A2E35;
   display: inline-block;
@@ -41,7 +41,7 @@ const IconWrapper = styled.button`
   transition: all .2s ease-in;
   cursor: pointer;
   &:hover {
-    background-color: #1A2E35;
+    background-color: #000;
     color: #FFF;
   }
 `;
@@ -50,8 +50,8 @@ const Text = styled.div`
 `;
 const Form = styled.form``;
 const Button = styled.button`
-  background-color: #1A2E35;
-  border: 2px solid #1A2E35;
+  background-color: #000;
+  border: 2px solid #000;
   border-radius: 0 5px 5px 0;
   color: #FFF;
   cursor: pointer;
@@ -65,7 +65,7 @@ const Button = styled.button`
   vertical-align: bottom;
   &:hover {
     background-color: #FFF;
-    color: #1A2E35;
+    color: #000;
   }
 `;
 
@@ -98,7 +98,7 @@ export default function SignIn({providers, csrfToken}) {
           )
         })}
       </Box>
-      <Text>or user your email registration</Text> 
+      <Text>or use your email</Text> 
       <Box>
         <Form method="post" action='/api/auth/signin/email' >
           <InputField name="csrfToken" type="hidden"  defaultValue={csrfToken} />
