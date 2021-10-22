@@ -5,11 +5,11 @@ type InputField = {
 }
 
 const InputField = styled.input<InputField>`
-  background: #f0f0f0;
+  background: ${({ theme }) => theme.inputFieldBGColor};
   border: none;
   border-radius: ${({ withButton }) => withButton ? '5px 0 0 5px' : '5px'};
   box-shadow: inset 0 1px 3px 0 rgb(0 0 0 / 8%);
-  color: #666;
+  color: ${({ theme }) => theme.inputFieldColor};
   font-size: 16px;
   font-family: inherit;
   margin: 0;
@@ -23,7 +23,7 @@ const InputField = styled.input<InputField>`
   &:active,
   &:focus,
   &:target {
-    background: #fafafa;
+    background:  ${({ theme }) => theme.inputFieldBGColorHover};
   }
 `;
 

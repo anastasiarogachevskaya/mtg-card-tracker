@@ -1,22 +1,42 @@
-import React from 'react';
+import React, { useContext } from 'react';
 import styled from "styled-components";
 import { useRouter } from 'next/router';
+
 import SearchForm from '../SearchForm';
-import Nav from './Nav';
-import Button from '../../elements/form/Button';
+import StyledLink from '../../elements/StyledLink';
+
+import { BiUserCircle, BiSun,  BiMoon} from "react-icons/bi";
 
 const Container = styled.div`
   padding: 1em;
+  display: flex;
+  flex-wrap: nowrap;
+  align-content: center;
+  align-items: center;
 `;
 
-const Header = () => {
+const FlexLink= styled(StyledLink)`
+  font-size: 2rem;
+  padding: 0 5px 0 25px;
+  transition: all .3s ease-in;
+  color: ${({ theme }) => theme.fontColor};
+  &:hover,
+  &:focus,
+  &:active {
+    color: #464646;
+  }
+`;
+
+const Header = ({ theme, toggleTheme }) => {
   const router = useRouter();
 
   return (
     <Container>
-      {/* <Nav /> */}
       <SearchForm  onSearch={(string: string) => router.push(`/search?q=${string}`)} />
-      <Button href="/signin">Log in</Button>
+      <FlexLink href="/signin"><BiUserCircle /></FlexLink>
+      <FlexLink onClick={toggleTheme}>
+        {theme === 'light' ? <BiSun /> : <BiMoon />}
+      </FlexLink>
     </Container>
   );
 };

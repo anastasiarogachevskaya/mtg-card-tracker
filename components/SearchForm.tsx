@@ -5,6 +5,11 @@ import styled from 'styled-components';
 import Button from '../elements/form/Button';
 import InputField from '../elements/form/InputField';
 
+const Form = styled.div`
+  width: 100%;
+  flex: 2;
+`;
+
 const Flex = styled.div`
   display: flex;
 `;
@@ -55,7 +60,7 @@ const SearchForm = ({ onSearch }:any) => {
   }
 
   return (
-    <form onSubmit={onSubmit}>
+    <Form onSubmit={onSubmit}>
       <Flex>
         <InputField 
           id="searchField"
@@ -74,7 +79,7 @@ const SearchForm = ({ onSearch }:any) => {
         }
         <Button withInput><RiSearch2Line /></Button>
       </Flex>
-    </form>
+    </Form>
   );
 };
 
