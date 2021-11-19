@@ -9,10 +9,11 @@ import InputField  from '../elements/form/InputField';
 const Container = styled.div`
   max-width: 600px;
   margin: 0 auto 0 auto;
-  background-color: #FFFFFF;
+  background: ${({ theme }) => theme.componentContainerBGColor};
   padding: 2em;
   border-radius: 15px;
   text-align: center;
+  box-shadow: 0 0 20px -10px ${({ theme }) => theme.boxShadowColor};;
 `;
 
 const Title = styled.h1`
@@ -29,10 +30,10 @@ const Provider = styled.div`
   }
 `;
 const IconWrapper = styled.button`
-  background-color: #FFF;
-  border: 2px solid #000;
+  background: ${({ theme }) => theme.body};
+  border: 2px solid #121212;
   border-radius: 50%;
-  color: #1A2E35;
+  color: ${({ theme }) => theme.fontColor};
   display: inline-block;
   font-size: 1.2rem;
   height: 38px;
