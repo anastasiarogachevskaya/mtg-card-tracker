@@ -15,7 +15,7 @@ export async function getDecks(client, collection, email) {
   const db = client.db();
   const decks = await db
     .collection(collection)
-    .find()
+    .find({ user: email })
     .toArray();
   return decks;
 }
