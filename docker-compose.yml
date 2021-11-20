@@ -10,7 +10,8 @@ services:
     volumes:
       - "node_modules_volume:/usr/src/app/node_modules"
     environment:
-      - "API_HOST=https://api.scryfall.com/"
+      API_HOST: https://api.scryfall.com/
+      # MONGODB_DB: mtg
     command: "npm run dev"
     depends_on:
       - mongodb
@@ -19,6 +20,8 @@ services:
     image: mongo
     container_name: mongodb
     restart: always
+    volumes:
+      - ./data/db:/data/db
     environment:
       MONGO_INITDB_ROOT_USERNAME: root
       MONGO_INITDB_ROOT_PASSWORD: example

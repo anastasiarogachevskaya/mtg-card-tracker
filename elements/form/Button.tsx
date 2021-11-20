@@ -1,14 +1,14 @@
-import styled from "styled-components";
+import styled, { css } from "styled-components";
 
 type Button = {
   withInput?: boolean;
+  href?: string;
 }
 
-const Button = styled.button<Button>`
+const common = css`
   background: #000;
   color: #FFF;
   border: 0;
-  border-radius: ${({ withInput }) => withInput ? '0 5px 5px 0' : '5px'};
   padding: 10px 20px;
   cursor: pointer;
   transition: all .3s ease;
@@ -20,4 +20,34 @@ const Button = styled.button<Button>`
   }
 `;
 
-export default Button;
+
+const Button = styled.button<Button>`
+  ${common};
+  border-radius: ${({ withInput }) => withInput ? '0 5px 5px 0' : '5px'};
+`;
+
+const Link = styled.a`
+  ${common};
+  text-transform: uppercase;
+`;
+
+const ButtonEl = (props) => {
+  const { href, withInput, children, onClick } = props;
+  if (href) {
+    return(
+      <Link href={href}>
+        {children}
+      </Link>
+    )
+  }
+  return (
+    <Button
+      withInput={withInput}
+      onClick={onClick}
+    >
+      {children}
+    </Button>
+  );
+}
+
+export default ButtonEl;
