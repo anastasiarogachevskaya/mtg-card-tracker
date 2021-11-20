@@ -2,6 +2,7 @@ import styled from "styled-components";
 
 type InputField = {
   withButton?: boolean;
+  width?: string;
 }
 
 const InputField = styled.input<InputField>`
@@ -17,7 +18,7 @@ const InputField = styled.input<InputField>`
   outline: none;
   padding: 0 20px;
   transition: all .4s ease;
-  width: 100%;
+  width: ${({ width }) => width || '100%'}; 
   
   &:hover,
   &:active,

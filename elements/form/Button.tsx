@@ -32,7 +32,7 @@ const Link = styled.a`
 `;
 
 const ButtonEl = (props) => {
-  const { href, withInput, children } = props;
+  const { href, withInput, children, onClick } = props;
   if (href) {
     return(
       <Link href={href}>
@@ -41,7 +41,10 @@ const ButtonEl = (props) => {
     )
   }
   return (
-    <Button withInput={withInput}>
+    <Button
+      withInput={withInput}
+      onClick={onClick}
+    >
       {children}
     </Button>
   );

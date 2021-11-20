@@ -1,7 +1,7 @@
 import React from 'react';
-import { providers, signIn, getSession, csrfToken } from "next-auth/client";
+import { providers, signIn, getSession, useSession, csrfToken } from "next-auth/client";
 import styled from 'styled-components';
-import { FaTwitter, FaFacebookF, FiGithub, FaGithub } from 'react-icons/fa';
+import { FaTwitter, FaFacebookF, FaGithub } from 'react-icons/fa';
 import { AiOutlineGoogle } from 'react-icons/ai';
 
 import InputField  from '../elements/form/InputField';
@@ -80,6 +80,7 @@ const StyledInput = styled(InputField)`
 
 
 export default function SignIn({providers, csrfToken}) {
+  const [session, loading] = useSession();
   return (
     <Container>
       <Title>Create account</Title>
@@ -117,7 +118,7 @@ SignIn.getInitialProps = async (context) => {
 
   if (session && res && session.accessToken) {
     res.writeHead(302, {
-      Location: "/",
+      Location: "/user/profile",
     });
     res.end();
     return;
