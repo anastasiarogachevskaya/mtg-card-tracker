@@ -20,9 +20,17 @@ const warning = css`
   border-color: #ffeeba;
 `;
 
-const types = { error, warning, success };
+const info = css`
+  color: #0c5460;
+  background-color: #d1ecf1;
+  border-color: #bee5eb;
+`;
 
-const BaseAlert = styled.div`
+const types = {
+  error, warning, success, info,
+};
+
+const BaseAlert = styled.div<{ width:Number, center: boolean, type: 'error' | 'warning' | 'success' | 'info'}>`
   position: relative;
   padding: .75rem 1.25rem;
   margin-bottom: 1rem;
@@ -40,9 +48,31 @@ const BaseAlert = styled.div`
   ${({ type }) => types[type]};
 `;
 
+export type AlertProps = {
+  /**
+   * The type of alert to display.
+   * @default 'info'
+   * error: red text with lighter red background;
+   * warning: brownish text with yellow background;
+   * success: green text with lighter green background;
+   */
+  type?: 'error' | 'warning' | 'success' | 'info';
+  /**
+   * Whether to center the alert.
+   */
+  center?: boolean;
+  /**
+   * The width of the alert.
+   * @default 600
+   */
+  width?: number;
+  testId?: string;
+  children: React.ReactNode;
+};
+
 const Alert = ({
-  type, center, width, testId, children,
-}) => (
+  type = 'info', center = false, width = 600, testId, children,
+} : AlertProps) => (
   <BaseAlert
     type={type}
     data-testid={testId}
@@ -52,20 +82,5 @@ const Alert = ({
     {children}
   </BaseAlert>
 );
-
-Alert.propTypes = {
-  type: PropTypes.string,
-  center: PropTypes.bool,
-  width: PropTypes.number,
-  testId: PropTypes.string,
-  children: PropTypes.node.isRequired,
-};
-
-Alert.defaultProps = {
-  type: '',
-  center: false,
-  width: 600,
-  testId: '',
-};
 
 export default Alert;

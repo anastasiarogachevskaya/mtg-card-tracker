@@ -1,0 +1,32 @@
+version: "3.8"
+
+services:
+  app:
+    build:
+      context: "."
+      target: "base"
+    container_name: app
+    restart: always
+    volumes:
+      - "node_modules_volume:/usr/src/app/node_modules"
+    environment:
+      API_HOST: https://api.scryfall.com/
+      # MONGODB_DB: mtg
+    command: "npm run dev"
+    env_file:
+      - .env
+    depends_on:
+      - mongodb
+
+  # mongo:
+  #   image: mongo
+  #   container_name: mongodb
+  #   restart: always
+  #   volumes:
+  #     - ./data/db:/data/db
+  #   environment:
+  #     MONGO_INITDB_ROOT_USERNAME: root
+  #     MONGO_INITDB_ROOT_PASSWORD: example
+
+volumes:
+  node_modules_volume:

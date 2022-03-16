@@ -27,14 +27,19 @@ const FlexLink= styled(StyledLink)`
   }
 `;
 
-const Header = ({ theme, toggleTheme }) => {
+type HeaderProps = {
+  theme: string | (() => void);
+  toggleTheme: string | (() => void);
+};
+
+const Header = ({ theme, toggleTheme }: HeaderProps) => {
   const router = useRouter();
 
   return (
     <Container>
-      <SearchForm  onSearch={(string: string) => router.push(`/search?q=${string}`)} />
+      <SearchForm onSearch={(string: string) => router.push(`/search?q=${string}`)} />
       <FlexLink href="/signin"><BiUserCircle /></FlexLink>
-      <FlexLink onClick={toggleTheme}>
+      <FlexLink onClick={() => toggleTheme}>
         {theme === 'light' ? <BiSun /> : <BiMoon />}
       </FlexLink>
     </Container>

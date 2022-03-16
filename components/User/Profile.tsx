@@ -11,6 +11,7 @@ import InputField from '../../elements/form/InputField';
 import Spacer from '../../elements/ui/Spacer';
 
 import DeckList from './DeckList';
+import { Session } from 'next-auth';
 
 
 const Container = styled.div`
@@ -29,14 +30,23 @@ const Flex = styled.div`
   display: flex;
 `;
 
-const Profile = ({ session }) => {
+type SessionProps = {
+  session: {
+    user: {
+      email: string,
+      name: string,
+    }
+  };
+};
+
+const Profile = ({ session }: SessionProps) => {
   const { name, email } = session.user;
 
   const [start, setStart] = useState(false);
   const [loading, setLoading] = useState(false);
   const [done, setDone] = useState(false);
   const [failed, setFailed] = useState(false);
-  const deckName = useRef();
+  const deckName = useRef() as React.RefObject<HTMLInputElement>;
 
   function startHandler() {
     if(start) {
@@ -46,13 +56,13 @@ const Profile = ({ session }) => {
     }
   }
   
-  function createNewDeckHandler(event) {
+  function createNewDeckHandler(event: { preventDefault: () => void; }) {
     event.preventDefault();
     
     setLoading(true);
 
     axios.post('/api/decks/create', {
-      deck: deckName.current.value,
+      deck: deckName?.current!.value || 'New Deck',
       user: email
     })
     .then(() => { 
@@ -69,7 +79,7 @@ const Profile = ({ session }) => {
       <ButtonEl onClick={startHandler}>Add new deck</ButtonEl>
       {start && (
         <>
-          <Spacer size={5} />
+          <Spacer size="5" />
           <InputField
             placeholder='Deck Title'
             width="250px"

@@ -4,24 +4,27 @@ FROM public.ecr.aws/z9b7l4y2/node-temp:12.14.1 as base
 # Disable Next.js telemetry
 ENV NEXT_TELEMETRY_DISABLED=1
 
-# Create app directory
 RUN mkdir -p /usr/src/app
 WORKDIR /usr/src/app
 
-# Installing dependencies
-COPY package*.json .
+# Copy package.json over and run install
+COPY package*.json ./
 RUN npm install
 
-# Copying source files
+# Copy files from host
 COPY . .
+
 
 # Production image that runs the build
 FROM base AS production
 
-# Building app
+# Copy files from base
+COPY --from=base /usr/src/app /usr/src/app
+
+# Run the build once everything has been copied over
+# RUN npm run next:build
 RUN npm run build
 
 EXPOSE 3000
 
-# Running the app
-CMD ["npm", "run", "start"]
+CMD ["npm", "start"]

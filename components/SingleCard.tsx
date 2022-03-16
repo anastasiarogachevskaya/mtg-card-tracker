@@ -1,42 +1,44 @@
 
-import React, { FC } from 'react';
+import React, { FC, useState } from 'react';
 import styled from "styled-components";
 import Image from 'next/image';
 import getManaCost from '../utils/getManaCost';
 import { device } from '../constants/breakpoints';
 import Link from 'next/link';
 import StyledLink from '../elements/StyledLink';
+import ButtonEl from '../elements/form/Button';
+import { FaPlus } from 'react-icons/fa';
+import Spacer from '../elements/ui/Spacer';
 
 export type CardProps = {
-  data: {
-    artist: string;
-    id: string;
-    object: string;
-    name: string;
-    type_line: string;
-    image_uris: {
-      png: string;
-      small: string;
-      normal: string;
-      large: string;
-      border_crop: string;
-    },
-    oracle_text: string;
-    cmc: number;
-    mana_cost: string;
-    flavor_text: string;
-    color_identity: [];
-    set_name: string;
-    set_type: string;
-    released_at: string;
-    rarity: string;
-    reserved: boolean;
-    reprint: boolean;
-    promo: boolean;
-    collector_number: number;
-    prices: string[]
+  artist: string;
+  id: string;
+  object: string;
+  name: string;
+  type_line: string;
+  image_uris: {
+    png: string;
+    small: string;
+    normal: string;
+    large: string;
+    border_crop: string;
   },
-  
+  oracle_text: string;
+  cmc: number;
+  mana_cost: string;
+  flavor_text: string;
+  color_identity: [];
+  set_name: string;
+  set_type: string;
+  released_at: string;
+  rarity: string;
+  reserved: boolean;
+  reprint: boolean;
+  promo: boolean;
+  collector_number: number;
+  prices: {
+    [key: string]: string;
+  }
 }
 
 export type AbbrProps = {
@@ -148,21 +150,40 @@ const Grid = styled.div`
   font-family: sofia-pro,sans-serif;
 `;
 
-const SingleCard: FC<CardProps> = ({ data }) => {
+const ButtonFloater = styled.div`
+  position: absolute;
+  right: 0;
+  filter: opacity(.3);
+  transition: filter .3s ease-in-out;
+  
+  &:hover {
+    filter: opacity(1);
+  }
+`;
+
+const SingleCard = ({ data }:{ data: CardProps}) => {
   // console.log(data);
+  const [start, setStart] = useState(false);
+  function startHandler() {
+    if(start) {
+      setStart(false);
+    } else {
+      setStart(true);
+    }
+  }
   const newDate = Intl.DateTimeFormat("fi-FI").format(new Date(data.released_at));
   const cmc = getManaCost(data.mana_cost) as CMCProps[];
   const imageSRC = data.image_uris?.normal || data.image_uris?.png || data.image_uris?.small || data.image_uris?.large || data.image_uris?.border_crop; 
   const prices = Object.keys(data.prices).map((key) => {
-    const currency = key.replace('_', ' ');
+    const currency = key.toString().replace('_', ' ');
     const price = data.prices[key];
     return (
-      <>
+      <React.Fragment key={price + key}>
         <StyledB uppercase>
           {currency}
         </StyledB>
         <StyledText>{price}</StyledText>
-      </>
+      </React.Fragment>
   )});
   return (
     <Wrapper>
@@ -218,6 +239,10 @@ const SingleCard: FC<CardProps> = ({ data }) => {
         {/* <Reserved>{data.reserved}</Reserved>
         <Reprint>{data.reprint}</Reprint>
         <Promo>{data.promo}</Promo> */}
+        <Spacer size="1em 0 0 0" />
+        <ButtonEl onClick={startHandler}>
+          Add to the deck <FaPlus />
+        </ButtonEl>
       </InfoWrapper>
     </Wrapper>
   )

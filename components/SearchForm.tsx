@@ -5,7 +5,7 @@ import styled from 'styled-components';
 import Button from '../elements/form/Button';
 import InputField from '../elements/form/InputField';
 
-const Form = styled.div`
+const Form = styled.form`
   width: 100%;
   flex: 2;
 `;

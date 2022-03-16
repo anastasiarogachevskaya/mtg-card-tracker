@@ -6,7 +6,7 @@ import GoogleProvider from 'next-auth/providers/google';
 import GitHubProvider from 'next-auth/providers/github';
 
 
-import { MongoDBAdapter } from "@next-auth/mongodb-adapter";
+// import { MongoDBAdapter } from "@next-auth/mongodb-adapter";
 // import { clientPromise } from "../../../lib/mongodb";
 
 const options = {

@@ -21,7 +21,6 @@ export default function ProfilePage() {
   }, [session]);
 
   if (typeof window !== "undefined" && loading) return null;
-  console.log(session);
   if (!session) {
     return (
       <main>
