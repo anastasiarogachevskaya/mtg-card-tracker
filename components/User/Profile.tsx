@@ -11,7 +11,8 @@ import InputField from '../../elements/form/InputField';
 import Spacer from '../../elements/ui/Spacer';
 
 import DeckList from './DeckList';
-import { Session } from 'next-auth';
+
+import { SessionProps } from '../../types/Session';
 
 
 const Container = styled.div`
@@ -30,16 +31,7 @@ const Flex = styled.div`
   display: flex;
 `;
 
-type SessionProps = {
-  session: {
-    user: {
-      email: string,
-      name: string,
-    }
-  };
-};
-
-const Profile = ({ session }: SessionProps) => {
+const Profile = ({ session }: {session: SessionProps}) => {
   const { name, email } = session.user;
 
   const [start, setStart] = useState(false);

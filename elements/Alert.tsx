@@ -1,6 +1,7 @@
 import React from 'react';
-import PropTypes from 'prop-types';
 import styled, { css } from 'styled-components';
+
+import { AlertProps } from '../types/Alert';
 
 const error = css`
   color: ${({ theme }) => theme.colors.seiskaRed};
@@ -47,28 +48,6 @@ const BaseAlert = styled.div<{ width:Number, center: boolean, type: 'error' | 'w
   `};
   ${({ type }) => types[type]};
 `;
-
-export type AlertProps = {
-  /**
-   * The type of alert to display.
-   * @default 'info'
-   * error: red text with lighter red background;
-   * warning: brownish text with yellow background;
-   * success: green text with lighter green background;
-   */
-  type?: 'error' | 'warning' | 'success' | 'info';
-  /**
-   * Whether to center the alert.
-   */
-  center?: boolean;
-  /**
-   * The width of the alert.
-   * @default 600
-   */
-  width?: number;
-  testId?: string;
-  children: React.ReactNode;
-};
 
 const Alert = ({
   type = 'info', center = false, width = 600, testId, children,

@@ -1,11 +1,6 @@
 import styled, { css } from "styled-components";
 
-type Button = {
-  withInput?: boolean;
-  href?: string;
-  padding?: string;
-  background?: string;
-}
+import { ButtonProps, ButtonElementProps } from '../../types/Button/ButtonProps';
 
 const common = css`
   background: #000;
@@ -23,7 +18,7 @@ const common = css`
 `;
 
 
-const Button = styled.button<Button>`
+const Button = styled.button<ButtonProps>`
   ${common};
   background: ${({ background }) => background || '#000'};
   padding: ${({ padding }) => padding || '10px 20px'};
@@ -36,17 +31,7 @@ const Link = styled.a`
   text-transform: uppercase;
 `;
 
-type ButtonProps = {
-  href?: string;
-  withInput?: boolean;
-  padding?: string;
-  background?: string;
-  color?: string;
-  children?: React.ReactNode;
-  onClick?: (e: { preventDefault: () => void; } | React.MouseEvent<HTMLButtonElement, MouseEvent>) => void;
-}
-
-const ButtonEl = (props: ButtonProps) => {
+const ButtonEl = (props: ButtonElementProps) => {
   const { href, withInput, children, onClick, padding, background, color } = props;
   if (href) {
     return(

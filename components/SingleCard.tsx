@@ -10,51 +10,7 @@ import ButtonEl from '../elements/form/Button';
 import { FaPlus } from 'react-icons/fa';
 import Spacer from '../elements/ui/Spacer';
 
-export type CardProps = {
-  artist: string;
-  id: string;
-  object: string;
-  name: string;
-  type_line: string;
-  image_uris: {
-    png: string;
-    small: string;
-    normal: string;
-    large: string;
-    border_crop: string;
-  },
-  oracle_text: string;
-  cmc: number;
-  mana_cost: string;
-  flavor_text: string;
-  color_identity: [];
-  set_name: string;
-  set_type: string;
-  released_at: string;
-  rarity: string;
-  reserved: boolean;
-  reprint: boolean;
-  promo: boolean;
-  collector_number: number;
-  prices: {
-    [key: string]: string;
-  }
-}
-
-export type AbbrProps = {
-  cost?: string;
-  colorName?: string;
-}
-
-export type CMCProps = {
-  type: string;
-  title: string;
-  class: string;
-}
-
-export type BProps = {
-  uppercase?: boolean;
-}
+import { AbbrProps, BProps, CMCProps, SingleCardProps } from '../types/Card/SingleCardProps';
 
 const Wrapper = styled.article`
   width: 100%;
@@ -161,7 +117,7 @@ const ButtonFloater = styled.div`
   }
 `;
 
-const SingleCard = ({ data }:{ data: CardProps}) => {
+const SingleCard = ({ data }:{ data: SingleCardProps}) => {
   // console.log(data);
   const [start, setStart] = useState(false);
   function startHandler() {

@@ -1,11 +1,8 @@
-import axios from 'axios';
 import React, { useState, useEffect } from 'react';
+import axios from 'axios';
 
-type Deck = {
-  _id: string;
-  name: string;
-  deck: string;
-};
+import { SingleDeckProps } from '../../types/Deck/SingleDeckProps';
+
 
 const DeckList = ({ email }: { email: string }) => {
   const [decks, setDecks] = useState([]);
@@ -31,7 +28,7 @@ const DeckList = ({ email }: { email: string }) => {
   return (
     <div>
       <h2>Deck List</h2>
-      {!loading && decks.map((deck:Deck) => {
+      {!loading && decks.map((deck: SingleDeckProps) => {
         return (
           <div key={deck._id}>
             {deck.deck}

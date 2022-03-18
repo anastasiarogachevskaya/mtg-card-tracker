@@ -27,12 +27,8 @@ const FlexLink= styled(StyledLink)`
   }
 `;
 
-type HeaderProps = {
-  theme: string | (() => void);
-  toggleTheme: string | (() => void);
-};
-
-const Header = ({ theme, toggleTheme }: HeaderProps) => {
+const Header = (
+  { theme, toggleTheme }: { theme: string | (() => void), toggleTheme: string | (() => void) }) => {
   const router = useRouter();
 
   return (
