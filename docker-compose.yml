@@ -5,8 +5,12 @@ services:
     build:
       context: ./
       dockerfile: Dockerfile
-    environment: 
-      - MONGODB_URI=mongodb://local_mtg:local_pass@mongodb
+    depends_on:
+      - mongodb
+    # environment: 
+      # - MONGODB_URI=mongodb://local_mtg:local_pass@@localhost:27017
+    links:
+      - mongodb
     ports:
       - 3000:3000
     volumes:
@@ -16,8 +20,14 @@ services:
     
   mongodb:
     image: mongo:5.0
-    environment:
-      - MONGO_INITDB_ROOT_USERNAME=local_mtg
-      - MONGO_INITDB_ROOT_PASSWORD=local_pass
+    # environment:
+    #   - MONGO_INITDB_ROOT_USERNAME=local_mtg
+    #   - MONGO_INITDB_ROOT_PASSWORD=local_pass
     ports:
       - 27017:27017
+    volumes:
+      - mongo-data:/data/db
+
+volumes:
+  mongo-data:
+    driver: local

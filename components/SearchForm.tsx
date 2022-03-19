@@ -45,8 +45,8 @@ const SearchForm = ({ onSearch }:any) => {
   const [suggestions, setSuggestions] = useState([]);
 
   const onChange = async (text: string) => {
-    const { data } = await axios(`/api/search/autocomplete?q=${text}`);
-    setSuggestions(data.data);
+    const { data } = await axios(`api/search/autocomplete?q=${text}`);
+    setSuggestions(data);
     setSearchString(text);
   };
   const onSubmit = async (event: React.FormEvent<HTMLFormElement>) => {
