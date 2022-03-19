@@ -4,12 +4,6 @@ import path from 'path';
 import type { NextApiResponse } from 'next';
 import { connectToDatabase } from '../../lib/mongodb';
 
-type Data = {
-  msg: string
-}
-type CardData = {
-  file: string
-}
 const getMostRecentFile = (dir: string) => {
   const files = orderReccentFiles(dir);
   return files.length ? files[0] : undefined;
@@ -24,11 +18,11 @@ const orderReccentFiles = (dir: string) => {
 
 
 export default async function handler(
-  res: NextApiResponse<Data>
+  res: NextApiResponse<{ msg: string }>
 ) {
   try {
     const { db } = await connectToDatabase();
-    const cardData = getMostRecentFile('./bulkdata') as CardData; // where to save a file
+    const cardData = getMostRecentFile('./bulkdata') as {file: string}; // where to save a file
     const cards = JSON.parse(fs.readFileSync(`bulkdata/${cardData.file}`, 'utf8'));
     db.collection("cards").insert(cards);
     res.status(200).json({ msg: 'Uploaded' });

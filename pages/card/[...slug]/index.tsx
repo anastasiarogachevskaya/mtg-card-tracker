@@ -3,18 +3,19 @@ import Head from 'next/head'
 import React from 'react'
 import SingleCard from '../../../components/SingleCard';
 import Container from '../../../elements/Container';
+import { SingleCardProps } from '../../../types/Card/SingleCardProps';
 
-export default function SingleCardPage({ cardInfo }) {
+export default function SingleCardPage({ cardInfo, meta }: { cardInfo: SingleCardProps, meta: { title: string, description: string} }) {
   let pageHead = (
     <Head>
-      <title>{cardInfo.name ? cardInfo.name : 'Loading...'} | MTG Invest Portfolio</title>
-      <meta name="description" content={cardInfo.oracle_text} />    
+      <title>{meta.title ? meta.title : 'Loading...'} | MTG Invest Portfolio</title>
+      <meta name="description" content={meta.description} />    
     </Head>
   )
 
   return (
     <Container>
-      {cardInfo.name && pageHead}
+      {meta?.title && pageHead}
       <SingleCard data={cardInfo} />
     </Container>
   )
@@ -28,6 +29,10 @@ export async function getServerSideProps(context: { params: any; }) {
   return {
     props: {
       cardInfo: data,
+      meta: {
+        title: data.name,
+        description: data.oracle_text
+      }
     }, // will be passed to the page component as props
   }
 }

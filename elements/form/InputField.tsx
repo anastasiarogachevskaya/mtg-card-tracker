@@ -1,11 +1,6 @@
 import styled from "styled-components";
 
-type InputField = {
-  withButton?: boolean;
-  width?: string;
-}
-
-const InputField = styled.input<InputField>`
+const InputField = styled.input<{ withButton?: boolean, width?: string}>`
   background: ${({ theme }) => theme.inputFieldBGColor};
   border: none;
   border-radius: ${({ withButton }) => withButton ? '5px 0 0 5px' : '5px'};

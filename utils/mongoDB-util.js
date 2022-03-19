@@ -1,8 +1,8 @@
 import { MongoClient } from 'mongodb';
 
 export async function connectDatabase() {
-  const client = await MongoClient.connect(process.env.MONGODB_URI);
-  return client;
+  const client = new MongoClient(process.env.MONGODB_URI, { useUnifiedTopology: true });
+  return client.connect();
 }
 
 export async function insertDocument(client, collection, document) {
@@ -12,10 +12,27 @@ export async function insertDocument(client, collection, document) {
 }
 
 export async function getDecks(client, collection, email) {
-  const db = client.db();
+  const db = client.db('magic');
   const decks = await db
     .collection(collection)
-    .find()
+    .find({ user: email })
     .toArray();
   return decks;
+}
+
+export async function getCardsByPartialString(client, q, namesOnly = false) {
+  const filter = (q === undefined || q.length < 1) ? {} : { name: { $regex: q } };
+  const cards = await client
+    .db('magic')
+    .collection('cards')
+    .find(
+      filter,
+    )
+    .limit(10)
+    .toArray();
+  client.close();
+  if (namesOnly) {
+    return cards.map(card => card.name);
+  }
+  return cards;
 }

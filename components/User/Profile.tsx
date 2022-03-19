@@ -12,6 +12,8 @@ import Spacer from '../../elements/ui/Spacer';
 
 import DeckList from './DeckList';
 
+import { SessionProps } from '../../types/Session';
+
 
 const Container = styled.div`
   margin: 1em;
@@ -29,14 +31,14 @@ const Flex = styled.div`
   display: flex;
 `;
 
-const Profile = ({ session }) => {
+const Profile = ({ session }: {session: SessionProps}) => {
   const { name, email } = session.user;
 
   const [start, setStart] = useState(false);
   const [loading, setLoading] = useState(false);
   const [done, setDone] = useState(false);
   const [failed, setFailed] = useState(false);
-  const deckName = useRef();
+  const deckName = useRef() as React.RefObject<HTMLInputElement>;
 
   function startHandler() {
     if(start) {
@@ -46,13 +48,13 @@ const Profile = ({ session }) => {
     }
   }
   
-  function createNewDeckHandler(event) {
+  function createNewDeckHandler(event: { preventDefault: () => void; }) {
     event.preventDefault();
     
     setLoading(true);
 
     axios.post('/api/decks/create', {
-      deck: deckName.current.value,
+      deck: deckName?.current!.value || 'New Deck',
       user: email
     })
     .then(() => { 
@@ -69,7 +71,7 @@ const Profile = ({ session }) => {
       <ButtonEl onClick={startHandler}>Add new deck</ButtonEl>
       {start && (
         <>
-          <Spacer size={5} />
+          <Spacer size="5" />
           <InputField
             placeholder='Deck Title'
             width="250px"

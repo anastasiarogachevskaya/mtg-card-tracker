@@ -1,9 +1,6 @@
 import styled, { css } from "styled-components";
 
-type Button = {
-  withInput?: boolean;
-  href?: string;
-}
+import { ButtonProps, ButtonElementProps } from '../../types/Button/ButtonProps';
 
 const common = css`
   background: #000;
@@ -21,8 +18,11 @@ const common = css`
 `;
 
 
-const Button = styled.button<Button>`
+const Button = styled.button<ButtonProps>`
   ${common};
+  background: ${({ background }) => background || '#000'};
+  padding: ${({ padding }) => padding || '10px 20px'};
+  color: ${({ color }) => color || '#FFF'};
   border-radius: ${({ withInput }) => withInput ? '0 5px 5px 0' : '5px'};
 `;
 
@@ -31,8 +31,8 @@ const Link = styled.a`
   text-transform: uppercase;
 `;
 
-const ButtonEl = (props) => {
-  const { href, withInput, children, onClick } = props;
+const ButtonEl = (props: ButtonElementProps) => {
+  const { href, withInput, children, onClick, padding, background, color } = props;
   if (href) {
     return(
       <Link href={href}>
@@ -44,6 +44,9 @@ const ButtonEl = (props) => {
     <Button
       withInput={withInput}
       onClick={onClick}
+      padding={padding}
+      background={background}
+      color={color}
     >
       {children}
     </Button>

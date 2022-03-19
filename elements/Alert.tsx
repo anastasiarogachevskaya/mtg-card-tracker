@@ -1,6 +1,7 @@
 import React from 'react';
-import PropTypes from 'prop-types';
 import styled, { css } from 'styled-components';
+
+import { AlertProps } from '../types/Alert';
 
 const error = css`
   color: ${({ theme }) => theme.colors.seiskaRed};
@@ -20,9 +21,17 @@ const warning = css`
   border-color: #ffeeba;
 `;
 
-const types = { error, warning, success };
+const info = css`
+  color: #0c5460;
+  background-color: #d1ecf1;
+  border-color: #bee5eb;
+`;
 
-const BaseAlert = styled.div`
+const types = {
+  error, warning, success, info,
+};
+
+const BaseAlert = styled.div<{ width:Number, center: boolean, type: 'error' | 'warning' | 'success' | 'info'}>`
   position: relative;
   padding: .75rem 1.25rem;
   margin-bottom: 1rem;
@@ -41,8 +50,8 @@ const BaseAlert = styled.div`
 `;
 
 const Alert = ({
-  type, center, width, testId, children,
-}) => (
+  type = 'info', center = false, width = 600, testId, children,
+} : AlertProps) => (
   <BaseAlert
     type={type}
     data-testid={testId}
@@ -52,20 +61,5 @@ const Alert = ({
     {children}
   </BaseAlert>
 );
-
-Alert.propTypes = {
-  type: PropTypes.string,
-  center: PropTypes.bool,
-  width: PropTypes.number,
-  testId: PropTypes.string,
-  children: PropTypes.node.isRequired,
-};
-
-Alert.defaultProps = {
-  type: '',
-  center: false,
-  width: 600,
-  testId: '',
-};
 
 export default Alert;

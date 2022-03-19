@@ -1,11 +1,8 @@
 
 import React, { FC, ReactNode } from 'react';
 import styled from 'styled-components';
-import Card, { CardProps } from './Card';
-
-export type ListingProps = {
-  listing: CardProps[],
-}
+import Card from './Card';
+import { ListingCardProps } from '../types/Card/ListingCardProps';
 
 const Wrapper = styled.div`
   display: flex; 
@@ -15,7 +12,7 @@ const Wrapper = styled.div`
   justify-content: space-evenly;
 `;
 
-const ResultList: FC<ListingProps> = ({ listing }) => {
+const ResultList = ({ listing }: {listing: ListingCardProps[]}) => {
   return (
     <Wrapper>
       {listing.map((card) => {

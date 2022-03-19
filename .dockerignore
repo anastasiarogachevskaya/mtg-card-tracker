@@ -1,0 +1,28 @@
+# OSX
+# -------------------------------------------------------------
+# OSX directory properties files
+.DS_Store
+
+
+# COMMON FILES
+# -------------------------------------------------------------
+temp/
+build/
+
+
+# TOOL SPECIFIC
+# -------------------------------------------------------------
+.idea/**
+.vscode/
+
+# VSCode Javascript related definition file
+jsconfig.json
+
+
+# NODE.JS
+# -------------------------------------------------------------
+# Ignore npm modules from host
+**/node_modules/**
+
+.next
+.github

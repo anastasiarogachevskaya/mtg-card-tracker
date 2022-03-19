@@ -3,8 +3,9 @@ function getManaCost (manacost:string) {
   const extractedValues = Array.from(matchedValues);
   let extractedManaCost:object[] = [];
   let cmc = {};
-  extractedValues.map((data) => {
-    if(isNaN(data[1])) {
+  extractedValues.map((data: string[]) => {
+    // if(isNaN(data[1])) {
+    if(data[1].includes('/')) {
       cmc = {
         type: 'color',
         title: data[1].replace('/', '-'),

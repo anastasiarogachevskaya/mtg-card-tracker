@@ -7,6 +7,7 @@ import { useDarkMode } from '../lib/useDarkMode';
 
 import Header from '../components/Header/Header'
 import { lightTheme, darkTheme, GlobalStyle } from '../theme/themes';
+import { UserContextProvider } from '../context/userContext';
 
 function MyApp({ Component, pageProps: { session, ...pageProps }, }: AppProps) {
   const [ theme, toggleTheme ] = useDarkMode();
@@ -14,11 +15,13 @@ function MyApp({ Component, pageProps: { session, ...pageProps }, }: AppProps) {
 
   return (
     <Provider session={session}>
-      <ThemeProvider theme={themeMode}>
-      <GlobalStyle />
-        <Header theme={theme} toggleTheme={toggleTheme} />
-        <Component {...pageProps} />
-      </ThemeProvider>
+      <UserContextProvider>
+        <ThemeProvider theme={themeMode}>
+        <GlobalStyle />
+          <Header theme={theme} toggleTheme={toggleTheme} />
+          <Component {...pageProps} />
+        </ThemeProvider>
+      </UserContextProvider>
     </Provider>
   )
 }

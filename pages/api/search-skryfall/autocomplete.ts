@@ -6,8 +6,7 @@ export default async function handler(
   req: NextApiRequest,
   res: NextApiResponse<{ name: string }>
 ) {
-  const { set, number } = req.query;
-  const { data } = await axios(`https://api.scryfall.com/cards/${set}/${number}`);
+  const { q } = req.query;
+  const { data } = await axios(`https://api.scryfall.com/cards/autocomplete?q=${q}`);
   res.status(200).json(data);
-  res.status(200);
 }

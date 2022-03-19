@@ -1,30 +1,19 @@
 
-import React, { FC } from 'react';
+import React from 'react';
 import styled from "styled-components";
 import Link from 'next/link';
 import Image from '../elements/Image';
-
-export type CardProps = {
-  id: string;
-  object: string;
-  set: string;
-  collector_number: string;
-  name: string;
-  image_uris: {
-    small: string;
-    normal: string;
-  },
-}
+import { ListingCardProps } from '../types/Card/ListingCardProps';
 
 const Wrapper = styled.article`
   margin: 0.5em;
 `;
 
-const Card: FC<CardProps> = ({ image_uris, object, set, collector_number, name }) => {
+const ListingCard = ({ image_uris, object, set, collector_number, name }: ListingCardProps) => {
   const placeholderImg = image_uris?.small || './img/placeholder-small.jpg'
   const imageSRC = image_uris?.normal || './img/placeholder.jpg';
   const regex = /[!"#$%&'()*+,-./:;<=>?@[\]^_`{|}~]/g;
-  name = name.toLowerCase().replace(regex, '').replaceAll(' ', '-');
+  name = name.toLowerCase().replace(regex, '').replace(' ', '-');
   const link = `/${object}/${set}/${collector_number}/${name}`;
   return (
     <Wrapper>
@@ -41,4 +30,4 @@ const Card: FC<CardProps> = ({ image_uris, object, set, collector_number, name }
   )
 }
 
-export default Card;
+export default ListingCard;
