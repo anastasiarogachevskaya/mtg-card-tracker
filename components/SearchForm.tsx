@@ -45,8 +45,8 @@ const SearchForm = ({ onSearch }:any) => {
   const [suggestions, setSuggestions] = useState([]);
 
   const onChange = async (text: string) => {
-    const { data } = await axios(`/api/search/autocomplete?q=${text}`);
-    setSuggestions(data.data);
+    const { data } = await axios(`api/search/autocomplete?q=${text}`);
+    setSuggestions(data);
     setSearchString(text);
   };
   const onSubmit = async (event: React.FormEvent<HTMLFormElement>) => {
@@ -74,7 +74,7 @@ const SearchForm = ({ onSearch }:any) => {
         />
         {suggestions.length > 0 && 
           <List>
-          {suggestions.map((suggestion) => <ListItem key={suggestion} onClick={() => onSuggestHandler(suggestion)}>{suggestion}</ListItem> )}
+          {suggestions.map((suggestion, index) => <ListItem key={`${suggestion}.${index}`} onClick={() => onSuggestHandler(suggestion)}>{suggestion}</ListItem> )}
           </List>
         }
         <Button withInput><RiSearch2Line /></Button>

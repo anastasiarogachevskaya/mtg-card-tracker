@@ -1,12 +1,27 @@
-// Next.js API route support: https://nextjs.org/docs/api-routes/introduction
-import axios from 'axios';
-import type { NextApiRequest, NextApiResponse } from 'next'
+import type { NextApiRequest, NextApiResponse } from 'next';
+import { connectDatabase, getCardsByPartialString } from '../../../utils/mongoDB-util';
 
-export default async function handler(
+
+async function handler(
   req: NextApiRequest,
-  res: NextApiResponse<{ name: string }>
+  res: NextApiResponse<{ message: string }>
 ) {
   const { q } = req.query;
-  const { data } = await axios(`https://api.scryfall.com/cards/autocomplete?q=${q}`);
-  res.status(200).json(data);
+  console.log('q', q);
+  let client;
+  try {
+    client = await connectDatabase();
+    try {
+      const data = await getCardsByPartialString(client, q, true);
+      res.status(200).json(data);
+    } catch (error) {
+      console.error('No cards found');
+    }
+  } catch (error) {
+    res.status(500).json({ message: 'Connecting to the database failed' });
+    return;
+  }
+  res.status(200);
 }
+
+export default handler;

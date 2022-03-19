@@ -18,7 +18,6 @@ async function handler(req, res) {
       client.close();
     } catch (error) {
       throw error;
-      return;
     }
   }
 

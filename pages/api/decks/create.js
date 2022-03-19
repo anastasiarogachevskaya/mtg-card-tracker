@@ -1,4 +1,4 @@
-import { connectDatabase, insertDocument, getAllCommentsByEvent } from '../../../utils/mongoDB-util';
+import { connectDatabase, insertDocument } from '../../../utils/mongoDB-util';
 
 async function handler(req, res) {
 

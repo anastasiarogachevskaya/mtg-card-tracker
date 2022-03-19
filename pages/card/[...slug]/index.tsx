@@ -1,10 +1,11 @@
 import axios from 'axios';
 import Head from 'next/head'
 import React from 'react'
-import SingleCard, { CardProps } from '../../../components/SingleCard';
+import SingleCard from '../../../components/SingleCard';
 import Container from '../../../elements/Container';
+import { SingleCardProps } from '../../../types/Card/SingleCardProps';
 
-export default function SingleCardPage({ cardInfo, meta }: { cardInfo: CardProps, meta: { title: string, description: string} }) {
+export default function SingleCardPage({ cardInfo, meta }: { cardInfo: SingleCardProps, meta: { title: string, description: string} }) {
   let pageHead = (
     <Head>
       <title>{meta.title ? meta.title : 'Loading...'} | MTG Invest Portfolio</title>
