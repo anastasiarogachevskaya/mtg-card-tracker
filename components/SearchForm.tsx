@@ -74,7 +74,7 @@ const SearchForm = ({ onSearch }:any) => {
         />
         {suggestions.length > 0 && 
           <List>
-          {suggestions.map((suggestion) => <ListItem key={suggestion} onClick={() => onSuggestHandler(suggestion)}>{suggestion}</ListItem> )}
+          {suggestions.map((suggestion, index) => <ListItem key={`${suggestion}.${index}`} onClick={() => onSuggestHandler(suggestion)}>{suggestion}</ListItem> )}
           </List>
         }
         <Button withInput><RiSearch2Line /></Button>

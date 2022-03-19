@@ -32,7 +32,6 @@ export async function getCardsByPartialString(client, q, namesOnly = false) {
     .toArray();
   client.close();
   if (namesOnly) {
-    console.log('names only');
     return cards.map(card => card.name);
   }
   return cards;
