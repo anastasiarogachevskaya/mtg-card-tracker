@@ -1,7 +1,6 @@
 
-import React, { FC, useState } from 'react';
+import React, { Fragment, useState } from 'react';
 import styled from "styled-components";
-import Image from 'next/image';
 import getManaCost from '../utils/getManaCost';
 import { device } from '../constants/breakpoints';
 import Link from 'next/link';
@@ -11,6 +10,7 @@ import { FaPlus } from 'react-icons/fa';
 import Spacer from '../elements/ui/Spacer';
 
 import { AbbrProps, BProps, CMCProps, SingleCardProps } from '../types/Card/SingleCardProps';
+import { useSession } from 'next-auth/client';
 
 const Wrapper = styled.article`
   width: 100%;
@@ -123,14 +123,7 @@ const SingleCard = ({ data }:{ data: SingleCardProps}) => {
     released_at, name, type_line, oracle_text, flavor_text, mana_cost,
     image_uris, set_name, rarity, collector_number, prices, artist,
   } = data;
-  const [start, setStart] = useState(false);
-  function startHandler() {
-    if(start) {
-      setStart(false);
-    } else {
-      setStart(true);
-    }
-  }
+  const [session, loading] = useSession();
   const newDate = Intl.DateTimeFormat("fi-FI").format(new Date(released_at));
   const cmc = getManaCost(mana_cost) as CMCProps[];
   const imageSRC = image_uris?.normal || image_uris?.png || image_uris?.small || image_uris?.large || image_uris?.border_crop; 
@@ -145,6 +138,10 @@ const SingleCard = ({ data }:{ data: SingleCardProps}) => {
         <StyledText>{price}</StyledText>
       </React.Fragment>
   )});
+
+  const onClick = () => {
+    console.log('clicked');
+  }
   return (
     <Wrapper>
       <ImageWrapper>
@@ -158,7 +155,7 @@ const SingleCard = ({ data }:{ data: SingleCardProps}) => {
           {name}
           <ManaInfo>
             {cmc.map((element) => {
-              if (element.type === 'cost') { return <Cost cost={element.title} /> }
+              if (element.type === 'cost') { return <Cost key={element.title} cost={element.title} /> }
               else { return <Mana key={element.title} colorName={element.title}/>}
             })}
           </ManaInfo>
@@ -168,10 +165,10 @@ const SingleCard = ({ data }:{ data: SingleCardProps}) => {
           {
             oracle_text && oracle_text.length > 0 && oracle_text.indexOf('\n') > -1 ? (
               oracle_text.split('\n').map((text, index) => (
-                <React.Fragment key={`${text}-${index}`}>
+                <Fragment key={`${text}-${index}`}>
                   {text}
                   <br />
-                </React.Fragment>
+                </Fragment>
               ))
             )
             : oracle_text
@@ -200,9 +197,11 @@ const SingleCard = ({ data }:{ data: SingleCardProps}) => {
         <Reprint>{data.reprint}</Reprint>
         <Promo>{data.promo}</Promo> */}
         <Spacer size="1em 0 0 0" />
-        <ButtonEl onClick={startHandler}>
+        {session && (
+        <ButtonEl onClick={onClick}>
           Add to the deck <FaPlus />
         </ButtonEl>
+        )}
       </InfoWrapper>
     </Wrapper>
   )

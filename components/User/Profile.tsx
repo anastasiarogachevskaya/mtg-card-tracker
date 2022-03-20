@@ -1,6 +1,7 @@
-import React, { useState, useRef } from 'react';
+import React, { useState, useRef, useContext, useEffect } from 'react';
 import axios from 'axios';
 import styled from 'styled-components';
+import { signOut } from 'next-auth/client';
 import { FaPlus } from 'react-icons/fa';
 import { BiLoaderCircle } from 'react-icons/bi';
 import { MdDone } from 'react-icons/md';
@@ -13,6 +14,7 @@ import Spacer from '../../elements/ui/Spacer';
 import DeckList from './DeckList';
 
 import { SessionProps } from '../../types/Session';
+import UserContext from '../../context/userContext';
 
 
 const Container = styled.div`
@@ -33,7 +35,6 @@ const Flex = styled.div`
 
 const Profile = ({ session }: {session: SessionProps}) => {
   const { name, email } = session.user;
-
   const [start, setStart] = useState(false);
   const [loading, setLoading] = useState(false);
   const [done, setDone] = useState(false);
@@ -89,6 +90,9 @@ const Profile = ({ session }: {session: SessionProps}) => {
       </Flex>
 
       <DeckList email={email} />
+      <ButtonEl onClick={() => signOut()}>
+        Sign Out
+      </ButtonEl>
     </Container>
   );
 }

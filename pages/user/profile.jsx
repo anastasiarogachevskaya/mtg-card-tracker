@@ -22,15 +22,11 @@ export default function ProfilePage() {
 
   if (typeof window !== "undefined" && loading) return null;
   if (!session) {
-    return (
-      <main>
-        <div>
-          <h1>You aren't signed in, please sign in first</h1>
-        </div>
-      </main>
-    );
+    return <h1>You aren't signed in, please sign in first</h1>;
   }
   return (
-    <Profile session={session}/>
+    <main>
+      <Profile session={session}/>
+    </main>
   );
 }

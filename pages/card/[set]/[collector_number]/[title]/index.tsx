@@ -1,21 +1,15 @@
 import React, { Fragment, useEffect, useState } from 'react';
 import Head from 'next/head';
-import useSWR, { SWRResponse } from 'swr';
 
 import SingleCard from '../../../../../components/SingleCard';
 import Container from '../../../../../elements/Container';
 import { SingleCardProps } from '../../../../../types/Card/SingleCardProps';
+import axios from 'axios';
 
-export default function SingleCardPage({ cardSet, cardNum}: { cardSet: string, cardNum: string }) {
-  const [cardInfo, setCardInfo] = useState<SingleCardProps>();
-  const { data, error } = useSWR(`${process.env.NEXT_PUBLIC_API_HOST}/api/card?set=${cardSet}&collectorNumber=${cardNum}`);
-  useEffect(() => {
-    if (data) {
-      setCardInfo(data.card[0]);
-    }
-  }, [data]);
+export default function SingleCardPage({ cardInfo, error }: {cardInfo: SingleCardProps, error: boolean}) {
   if (error) return "An error has occurred.";
   if (!cardInfo) return "Loading...";
+  console.log(cardInfo);
   return (
     <Container>
       <Head>
@@ -29,11 +23,12 @@ export default function SingleCardPage({ cardSet, cardNum}: { cardSet: string, c
 
 export async function getServerSideProps(context: { params: any; }) {
   const { set: cardSet, collector_number: cardNum } = context.params;
+  const { data } = await axios(`${process.env.NEXT_PUBLIC_API_HOST}/api/card?set=${cardSet}&collectorNumber=${cardNum}`);
 
   return {
     props: {
-      cardSet,
-      cardNum,
+      cardInfo: data.card[0],
+      error: !data ? true : false
     },
   }
 }
