@@ -1,8 +1,7 @@
 import React from 'react';
 import { providers, signIn, getSession, useSession, csrfToken } from "next-auth/client";
 import styled from 'styled-components';
-import { FaTwitter, FaFacebookF, FaGithub } from 'react-icons/fa';
-import { AiOutlineGoogle } from 'react-icons/ai';
+import { FaTwitter, FaRedditAlien, FaGithub } from 'react-icons/fa';
 
 import InputField  from '../elements/form/InputField';
 
@@ -86,14 +85,13 @@ export default function SignIn({providers, csrfToken}) {
       <Title>Create account</Title>
 
       <Box>
-        {Object.values(providers).map((provider) => {
+        {providers && Object.values(providers).map((provider) => {
           if(provider.name === 'Email') { return }
           return(
             <Provider key={provider.name}>
               <IconWrapper onClick={()=> signIn(provider.id)}>
-                {provider.name === 'Google' && <AiOutlineGoogle />}
+                {provider.name === 'Reddit' && <FaRedditAlien />}
                 {provider.name === 'GitHub' && <FaGithub />}
-                {provider.name === 'Facebook' && <FaFacebookF />}
                 {provider.name === 'Twitter' && <FaTwitter />}
               </IconWrapper>
             </Provider>

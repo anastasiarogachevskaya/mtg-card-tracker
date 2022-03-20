@@ -14,7 +14,8 @@ import { AbbrProps, BProps, CMCProps, SingleCardProps } from '../types/Card/Sing
 
 const Wrapper = styled.article`
   width: 100%;
-  background: #FFF;
+  background: ${({ theme }) => theme.body};
+  transition: all 0.50s linear;
   border-radius: 15px;;
   @media ${device.tablet} {
     display: grid;
