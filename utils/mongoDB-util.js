@@ -20,7 +20,7 @@ export async function getDecks(client, collection, email) {
   return decks;
 }
 
-export async function getCardsByPartialString(client, q, namesOnly = false) {
+export async function getCardsByPartialString(client, q, limit = 0, namesOnly = false) {
   const filter = (q === undefined || q.length < 1) ? {} : { name: { $regex: q } };
   const cards = await client
     .db('magic')
@@ -28,11 +28,26 @@ export async function getCardsByPartialString(client, q, namesOnly = false) {
     .find(
       filter,
     )
-    .limit(10)
+    .limit(limit)
     .toArray();
   client.close();
   if (namesOnly) {
     return cards.map(card => card.name);
   }
   return cards;
+}
+
+export async function getSingleCard(client, set, collectorNumber) {
+  const card = await client
+    .db('magic')
+    .collection('cards')
+    .find(
+      {
+        set: set,
+        collector_number: collectorNumber,
+      },
+    )
+    .toArray();
+  client.close();
+  return card;
 }

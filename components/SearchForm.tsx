@@ -56,7 +56,14 @@ const SearchForm = ({ onSearch }:any) => {
   }
   const onSuggestHandler = (text:string) => {
     setSearchString(text);
+    onSearch(text);
     setSuggestions([]);
+  }
+
+  const handleKeyPress = (event: React.KeyboardEvent<HTMLInputElement>) => {
+    if (event.key === 'Enter') {
+      onSearch(searchString);
+    }
   }
 
   return (
@@ -66,6 +73,7 @@ const SearchForm = ({ onSearch }:any) => {
           id="searchField"
           type="search"
           onChange={e => onChange(e.target.value)}
+          onKeyPress={handleKeyPress}
           placeholder="Search..."
           withButton
           autoComplete="off"

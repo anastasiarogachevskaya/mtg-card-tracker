@@ -118,7 +118,10 @@ const ButtonFloater = styled.div`
 `;
 
 const SingleCard = ({ data }:{ data: SingleCardProps}) => {
-  // console.log(data);
+  const {
+    released_at, name, type_line, oracle_text, flavor_text, mana_cost,
+    image_uris, set_name, rarity, collector_number, prices, artist,
+  } = data;
   const [start, setStart] = useState(false);
   function startHandler() {
     if(start) {
@@ -127,12 +130,12 @@ const SingleCard = ({ data }:{ data: SingleCardProps}) => {
       setStart(true);
     }
   }
-  const newDate = Intl.DateTimeFormat("fi-FI").format(new Date(data.released_at));
-  const cmc = getManaCost(data.mana_cost) as CMCProps[];
-  const imageSRC = data.image_uris?.normal || data.image_uris?.png || data.image_uris?.small || data.image_uris?.large || data.image_uris?.border_crop; 
-  const prices = Object.keys(data.prices).map((key) => {
+  const newDate = Intl.DateTimeFormat("fi-FI").format(new Date(released_at));
+  const cmc = getManaCost(mana_cost) as CMCProps[];
+  const imageSRC = image_uris?.normal || image_uris?.png || image_uris?.small || image_uris?.large || image_uris?.border_crop; 
+  const priceGrid = Object.keys(prices).map((key) => {
     const currency = key.toString().replace('_', ' ');
-    const price = data.prices[key];
+    const price = prices[key];
     return (
       <React.Fragment key={price + key}>
         <StyledB uppercase>
@@ -146,12 +149,12 @@ const SingleCard = ({ data }:{ data: SingleCardProps}) => {
       <ImageWrapper>
         {imageSRC && <StyledImage
           src={imageSRC}
-          alt={data.name}
+          alt={name}
         />}
       </ImageWrapper>
       <InfoWrapper>
         <Title>
-          {data.name}
+          {name}
           <ManaInfo>
             {cmc.map((element) => {
               if (element.type === 'cost') { return <Cost cost={element.title} /> }
@@ -159,37 +162,37 @@ const SingleCard = ({ data }:{ data: SingleCardProps}) => {
             })}
           </ManaInfo>
         </Title>
-        <Subtitle>{data.type_line}</Subtitle>
+        <Subtitle>{type_line}</Subtitle>
         <Description>
           {
-            data.oracle_text && data.oracle_text.length > 0 && data.oracle_text.indexOf('\n') > -1 ? (
-              data.oracle_text.split('\n').map((text, index) => (
+            oracle_text && oracle_text.length > 0 && oracle_text.indexOf('\n') > -1 ? (
+              oracle_text.split('\n').map((text, index) => (
                 <React.Fragment key={`${text}-${index}`}>
                   {text}
                   <br />
                 </React.Fragment>
               ))
             )
-            : data.oracle_text
+            : oracle_text
           }
         </Description>
-        <FlavorText>{data.flavor_text}</FlavorText>
+        <FlavorText>{flavor_text}</FlavorText>
 
         <Subtitle>Extra:</Subtitle>
         <Grid>
-          <StyledB>Expansion: </StyledB><StyledText>{data.set_name}</StyledText>
-          <StyledB>Rarity: </StyledB><StyledText>{data.rarity}</StyledText>
+          <StyledB>Expansion: </StyledB><StyledText>{set_name}</StyledText>
+          <StyledB>Rarity: </StyledB><StyledText>{rarity}</StyledText>
           <StyledB>Released: </StyledB><StyledText>{newDate}</StyledText>
-          <StyledB>Card Number: </StyledB><StyledText>{data.collector_number}</StyledText>
+          <StyledB>Card Number: </StyledB><StyledText>{collector_number}</StyledText>
           <StyledB>Illustrated by: </StyledB>
-          <Link href={`/search?q=${encodeURIComponent(`a:"${data.artist}"&unique=art`)}`}>
-            <StyledLink>{data.artist}</StyledLink>
+          <Link href={`/search?q=${encodeURIComponent(`a:"${artist}"&unique=art`)}`}>
+            <StyledLink>{artist}</StyledLink>
           </Link>
         </Grid>
 
         <Subtitle>Prices:</Subtitle>
         <Grid>
-          {prices}
+          {priceGrid}
         </Grid>
         
         {/* <Reserved>{data.reserved}</Reserved>
