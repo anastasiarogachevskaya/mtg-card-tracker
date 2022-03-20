@@ -10,7 +10,7 @@ const SearchResultsPage = () => {
   const [totalCards, setTotalCards] = useState(0);
   const [hasMore, setHasMore] = useState(false);
   const [cardListing, setCardListing] = useState([]);
-  const { data, error } = useSWR(`/api/search?q=${searchQuery}`);
+  const { data, error } = useSWR(`${process.env.NEXT_PUBLIC_API_HOST}/api/search?q=${searchQuery}`);
   let pageHead;
 
   useEffect(() => {

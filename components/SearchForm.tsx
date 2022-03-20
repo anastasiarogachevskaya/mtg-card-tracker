@@ -45,7 +45,7 @@ const SearchForm = ({ onSearch }:any) => {
   const [suggestions, setSuggestions] = useState([]);
 
   const onChange = async (text: string) => {
-    const { data } = await axios(`api/search/autocomplete?q=${text}`);
+    const { data } = await axios(`${process.env.NEXT_PUBLIC_API_HOST}/api/search/autocomplete?q=${text}`);
     setSuggestions(data);
     setSearchString(text);
   };

@@ -8,7 +8,7 @@ import { SingleCardProps } from '../../../../../types/Card/SingleCardProps';
 
 export default function SingleCardPage({ cardSet, cardNum}: { cardSet: string, cardNum: string }) {
   const [cardInfo, setCardInfo] = useState<SingleCardProps>();
-  const { data, error } = useSWR(`/api/card?set=${cardSet}&collectorNumber=${cardNum}`);
+  const { data, error } = useSWR(`${process.env.NEXT_PUBLIC_API_HOST}/api/card?set=${cardSet}&collectorNumber=${cardNum}`);
   useEffect(() => {
     if (data) {
       setCardInfo(data.card[0]);
