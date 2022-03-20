@@ -7,12 +7,11 @@ async function handler(
   res: NextApiResponse<{ message: string }>
 ) {
   const { q } = req.query;
-  console.log('q', q);
   let client;
   try {
     client = await connectDatabase();
     try {
-      const data = await getCardsByPartialString(client, q, true);
+      const data = await getCardsByPartialString(client, q, 10, true);
       res.status(200).json(data);
     } catch (error) {
       console.error('No cards found');

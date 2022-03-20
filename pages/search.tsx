@@ -11,29 +11,43 @@ const SearchResultsPage = () => {
   const [hasMore, setHasMore] = useState(false);
   const [cardListing, setCardListing] = useState([]);
   const { data, error } = useSWR(`/api/search?q=${searchQuery}`);
+  let pageHead;
 
   useEffect(() => {
     if (data) {
       setTotalCards(data.total_cards);
       setHasMore(data.has_more);
-      setCardListing(data.data);
+      setCardListing(data.cards);
     }
   }, [data]);
 
-  let pageHead = (
+  if (error) {
+    pageHead = (
+      <Head>
+        <title>Error | MTG Portfolio</title>
+        <meta name="description" content="Error" />
+      </Head>
+    );
+  } else {
     <Head>
       <title>Search: {searchQuery} | MTG Portfolio</title>
       <meta name="description" content={`Found cards by query ${searchQuery}`} />
     </Head>
-  );
+  }
 
   return (
     <Fragment>
       {pageHead}
-      <h2>Total cards: {totalCards}</h2>
-      <ResultList listing={cardListing} /> 
+      {error
+        ? <p>Something went wrong. Please try again later.</p>
+        : 
+        <>
+          <h2>Total cards: {totalCards}</h2>
+          <ResultList listing={cardListing} /> 
+        </>
+      }
     </Fragment>
   );
-}
+};
 
 export default SearchResultsPage;

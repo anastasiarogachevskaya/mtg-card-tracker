@@ -13,7 +13,7 @@ const ListingCard = ({ image_uris, object, set, collector_number, name }: Listin
   const placeholderImg = image_uris?.small || './img/placeholder-small.jpg'
   const imageSRC = image_uris?.normal || './img/placeholder.jpg';
   const regex = /[!"#$%&'()*+,-./:;<=>?@[\]^_`{|}~]/g;
-  name = name.toLowerCase().replace(regex, '').replace(' ', '-');
+  name = name.toLowerCase().replace(regex, '').split(' ').join('-');
   const link = `/${object}/${set}/${collector_number}/${name}`;
   return (
     <Wrapper>

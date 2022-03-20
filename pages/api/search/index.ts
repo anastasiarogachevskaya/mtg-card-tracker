@@ -1,10 +1,15 @@
 import type { NextApiRequest, NextApiResponse } from 'next';
+import { SingleCardProps } from '../../../types/Card/SingleCardProps';
 import { connectDatabase, getCardsByPartialString } from '../../../utils/mongoDB-util';
 
 
 async function handler(
   req: NextApiRequest,
-  res: NextApiResponse<{ message: string }>
+  res: NextApiResponse<{ 
+    total_cards?: number,
+    cards?: SingleCardProps[],
+    message?: string
+  }>
 ) {
   const { q } = req.query;
   console.log('q', q);
@@ -13,7 +18,10 @@ async function handler(
     client = await connectDatabase();
     try {
       const data = await getCardsByPartialString(client, q);
-      res.status(200).json(data);
+      res.status(200).json({
+        total_cards: data.length,
+        cards: data,
+      });
     } catch (error) {
       console.error('No cards found');
     }
