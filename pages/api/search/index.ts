@@ -12,7 +12,7 @@ async function handler(
   }>
 ) {
   const { q } = req.query;
-  console.log('q', q);
+
   let client;
   try {
     client = await connectDatabase();
@@ -29,7 +29,6 @@ async function handler(
     res.status(500).json({ message: 'Connecting to the database failed' });
     return;
   }
-  res.status(200);
 }
 
 export default handler;

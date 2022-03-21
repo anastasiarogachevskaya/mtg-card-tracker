@@ -1,25 +1,21 @@
 import React, { Fragment, useEffect, useState } from 'react';
 import Head from 'next/head';
-import { useRouter } from 'next/router';
 import ResultList from '../components/ResultList';
-import useSWR from 'swr';
+import axios from 'axios';
+import { ListingCardProps } from '../types/Card/ListingCardProps';
 
-const SearchResultsPage = () => {
-  const router = useRouter();
-  const searchQuery = router.query.q;
-  const [totalCards, setTotalCards] = useState(0);
-  const [hasMore, setHasMore] = useState(false);
-  const [cardListing, setCardListing] = useState([]);
-  const { data, error } = useSWR(`${process.env.NEXT_PUBLIC_API_HOST}/api/search?q=${searchQuery}`);
+type SearchProps = {
+  searchQuery: string;
+  totalCards: number;
+  cardListing: ListingCardProps[]
+  error: boolean;
+}
+
+
+const SearchResultsPage = ({
+  searchQuery, totalCards, cardListing, error,
+}: SearchProps) => {
   let pageHead;
-
-  useEffect(() => {
-    if (data) {
-      setTotalCards(data.total_cards);
-      setHasMore(data.has_more);
-      setCardListing(data.cards);
-    }
-  }, [data]);
 
   if (error) {
     pageHead = (
@@ -51,3 +47,19 @@ const SearchResultsPage = () => {
 };
 
 export default SearchResultsPage;
+
+export async function getServerSideProps(context: { query: { q: string }; }) {
+  const { q } = context.query;
+  const { data } = await axios(`${process.env.NEXT_PUBLIC_API_HOST}/api/search?q=${q}`);
+  const { total_cards: totalCards, cards } = data;
+  console.log(totalCards);
+
+  return {
+    props: {
+      searchQuery: q,
+      totalCards,
+      cardListing: cards,
+      error: !data ? true : false,
+    },
+  }
+}

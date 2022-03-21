@@ -21,7 +21,7 @@ export async function getDecks(client, collection, email) {
 }
 
 export async function getCardsByPartialString(client, q, limit = 0, namesOnly = false) {
-  const filter = (q === undefined || q.length < 1) ? {} : { name: { $regex: q } };
+  const filter = (q === undefined || q.length < 1) ? {} : { name: { $regex: q, $options: 'i' } };
   const cards = await client
     .db('magic')
     .collection('cards')

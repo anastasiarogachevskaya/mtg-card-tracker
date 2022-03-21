@@ -4,25 +4,24 @@ import { Provider } from 'next-auth/client'
 import { ThemeProvider } from 'styled-components'
 
 import { useDarkMode } from '../lib/useDarkMode';
+import { UserContextProvider } from '../context/userContext';
 
 import Header from '../components/Header/Header'
 import { lightTheme, darkTheme, GlobalStyle } from '../theme/themes';
-import { UserContextProvider } from '../context/userContext';
 
-function MyApp({ Component, pageProps: { session, ...pageProps }, }: AppProps) {
+export default function App ({ Component, pageProps }: AppProps) {
   const [ theme, toggleTheme ] = useDarkMode();
   const themeMode = theme === 'light' ? lightTheme : darkTheme;
-
+  const { session } = pageProps;
   return (
     <Provider session={session}>
-      <UserContextProvider>
-        <ThemeProvider theme={themeMode}>
-        <GlobalStyle />
+      <ThemeProvider theme={themeMode}>
+      <GlobalStyle />
+        <UserContextProvider>
           <Header theme={theme} toggleTheme={toggleTheme} />
           <Component {...pageProps} />
-        </ThemeProvider>
-      </UserContextProvider>
+        </UserContextProvider>
+      </ThemeProvider>
     </Provider>
   )
 }
-export default MyApp
