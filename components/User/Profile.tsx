@@ -35,6 +35,7 @@ const Flex = styled.div`
 
 const Profile = ({ session }: {session: SessionProps}) => {
   const { name, email } = session.user;
+  console.log('name', name);
   const [start, setStart] = useState(false);
   const [loading, setLoading] = useState(false);
   const [done, setDone] = useState(false);

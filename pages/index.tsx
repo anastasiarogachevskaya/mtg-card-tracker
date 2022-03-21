@@ -12,10 +12,6 @@ export default function Home() {
       <main>
 
       </main>
-
-      <footer>
-       
-      </footer>
     </div>
   )
 }
