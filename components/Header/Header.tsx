@@ -19,7 +19,7 @@ const FlexLink= styled(StyledLink)`
   font-size: 2rem;
   padding: 0 5px 0 25px;
   transition: all .3s ease-in;
-  color: ${({ theme }) => theme.fontColor};
+  color: ${({ theme }) => theme.primary.textColor};
   &:hover,
   &:focus,
   &:active {

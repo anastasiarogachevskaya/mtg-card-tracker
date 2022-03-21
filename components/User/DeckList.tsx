@@ -10,7 +10,7 @@ const DeckList = ({ email }: { email: string }) => {
 
   useEffect(() => {
     setLoading(true);
-    axios.get(`${process.env.NEXT_PUBLIC_API_HOST}/api/decks/get?user=${email}`)
+    axios.get(`${process.env.NEXT_PUBLIC_API_HOST}/api/decks/get?email=${email}`)
       .then(res => {
         if (res.status === 200) {
           setDecks(res.data);

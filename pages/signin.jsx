@@ -29,10 +29,10 @@ const Provider = styled.div`
   }
 `;
 const IconWrapper = styled.button`
-  background: ${({ theme }) => theme.body};
+  background: ${({ theme }) => theme.primary.underBgColor};
   border: 2px solid #121212;
   border-radius: 50%;
-  color: ${({ theme }) => theme.fontColor};
+  color: ${({ theme }) => theme.primary.textColor};
   display: inline-block;
   font-size: 1.2rem;
   height: 38px;

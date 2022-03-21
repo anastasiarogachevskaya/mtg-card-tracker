@@ -41,7 +41,7 @@ const ListItem = styled.li`
 `;
 
 const SearchForm = ({ onSearch }:any) => {
-  const [searchString, setSearchString] = useState<string>();
+  const [searchString, setSearchString] = useState<string>('');
   const [suggestions, setSuggestions] = useState([]);
 
   const onChange = async (text: string) => {

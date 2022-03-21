@@ -1,7 +1,7 @@
 import { connectDatabase, getDecks } from '../../../utils/mongoDB-util';
 
 async function handler(req, res) {
-  const { user } = req.query;
+  const { email } = req.query;
   
   let client;
   try {
@@ -13,7 +13,7 @@ async function handler(req, res) {
 
   if (req.method === 'GET') {
     try {
-      const decks = await getDecks(client, 'decks', user);
+      const decks = await getDecks(client, 'decks', email);
       res.status(200).json(decks);
       client.close();
     } catch (error) {

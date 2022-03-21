@@ -5,16 +5,13 @@ import getManaCost from '../utils/getManaCost';
 import { device } from '../constants/breakpoints';
 import Link from 'next/link';
 import StyledLink from '../elements/StyledLink';
-import ButtonEl from '../elements/form/Button';
-import { FaPlus } from 'react-icons/fa';
-import Spacer from '../elements/ui/Spacer';
 
 import { AbbrProps, BProps, CMCProps, SingleCardProps } from '../types/Card/SingleCardProps';
-import { useSession } from 'next-auth/client';
+import Modal from './Modal';
 
 const Wrapper = styled.article`
   width: 100%;
-  background: ${({ theme }) => theme.body};
+  background: ${({ theme }) => theme.primary.underBgColor};
   transition: all 0.50s linear;
   border-radius: 15px;;
   @media ${device.tablet} {
@@ -118,12 +115,11 @@ const ButtonFloater = styled.div`
   }
 `;
 
-const SingleCard = ({ data }:{ data: SingleCardProps}) => {
+const SingleCard = ({ data }:{ data: SingleCardProps }) => {
   const {
     released_at, name, type_line, oracle_text, flavor_text, mana_cost,
     image_uris, set_name, rarity, collector_number, prices, artist,
   } = data;
-  const [session, loading] = useSession();
   const newDate = Intl.DateTimeFormat("fi-FI").format(new Date(released_at));
   const cmc = getManaCost(mana_cost) as CMCProps[];
   const imageSRC = image_uris?.normal || image_uris?.png || image_uris?.small || image_uris?.large || image_uris?.border_crop; 
@@ -139,9 +135,6 @@ const SingleCard = ({ data }:{ data: SingleCardProps}) => {
       </React.Fragment>
   )});
 
-  const onClick = () => {
-    console.log('clicked');
-  }
   return (
     <Wrapper>
       <ImageWrapper>
@@ -196,12 +189,6 @@ const SingleCard = ({ data }:{ data: SingleCardProps}) => {
         {/* <Reserved>{data.reserved}</Reserved>
         <Reprint>{data.reprint}</Reprint>
         <Promo>{data.promo}</Promo> */}
-        <Spacer size="1em 0 0 0" />
-        {session && (
-        <ButtonEl onClick={onClick}>
-          Add to the deck <FaPlus />
-        </ButtonEl>
-        )}
       </InfoWrapper>
     </Wrapper>
   )
