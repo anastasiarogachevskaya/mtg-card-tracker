@@ -7,7 +7,6 @@ import Link from 'next/link';
 import StyledLink from '../elements/StyledLink';
 
 import { AbbrProps, BProps, CMCProps, SingleCardProps } from '../types/Card/SingleCardProps';
-import Modal from './Modal';
 
 const Wrapper = styled.article`
   width: 100%;
@@ -120,7 +119,7 @@ const SingleCard = ({ data }:{ data: SingleCardProps }) => {
     released_at, name, type_line, oracle_text, flavor_text, mana_cost,
     image_uris, set_name, rarity, collector_number, prices, artist,
   } = data;
-  const newDate = Intl.DateTimeFormat("fi-FI").format(new Date(released_at));
+  // const newDate = Intl.DateTimeFormat("fi-FI").format(new Date(released_at));
   const cmc = getManaCost(mana_cost) as CMCProps[];
   const imageSRC = image_uris?.normal || image_uris?.png || image_uris?.small || image_uris?.large || image_uris?.border_crop; 
   const priceGrid = Object.keys(prices).map((key) => {
@@ -173,7 +172,7 @@ const SingleCard = ({ data }:{ data: SingleCardProps }) => {
         <Grid>
           <StyledB>Expansion: </StyledB><StyledText>{set_name}</StyledText>
           <StyledB>Rarity: </StyledB><StyledText>{rarity}</StyledText>
-          <StyledB>Released: </StyledB><StyledText>{newDate}</StyledText>
+          <StyledB>Released: </StyledB><StyledText>{released_at}</StyledText>
           <StyledB>Card Number: </StyledB><StyledText>{collector_number}</StyledText>
           <StyledB>Illustrated by: </StyledB>
           <Link href={`/search?q=${encodeURIComponent(`a:"${artist}"&unique=art`)}`}>

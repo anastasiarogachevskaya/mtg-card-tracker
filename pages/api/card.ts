@@ -13,6 +13,11 @@ async function handler(
     client = await connectDatabase();
     try {
       const data = await getSingleCard(client, set, collectorNumber);
+      data.map((card: SingleCardProps) => {
+        const date = card.released_at.split('-');
+        card.released_at = `${date[2]}.${date[1]}.${date[0]}`;
+        return card;
+      });
       res.status(200).json({
         card: data,
       });
