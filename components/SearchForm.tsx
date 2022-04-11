@@ -1,5 +1,7 @@
+import React, { useEffect, useRef, useState } from 'react';
 import axios from 'axios';
-import React, { useState } from 'react';
+
+import useDebounce from '../hooks/useDebounce';
 import { RiSearch2Line } from 'react-icons/ri';
 import styled from 'styled-components';
 import Button from '../elements/form/Button';
@@ -23,7 +25,7 @@ const List = styled.ul`
   box-shadow: inset 0 1px 3px 0 rgb(0 0 0 / 8%);
   color: #666;
   font-size: 16px;
-  width: calc(100% - 55px);
+  width: calc(100% - 210px);
   position: absolute;
   top: 70px;
   z-index: 100;
@@ -43,46 +45,63 @@ const ListItem = styled.li`
 const SearchForm = ({ onSearch }:any) => {
   const [searchString, setSearchString] = useState<string>('');
   const [suggestions, setSuggestions] = useState([]);
+  const [display, setDisplay] = useState(false);
+  const wrapperRef = useRef<any>(null);
 
-  const onChange = async (text: string) => {
-    const { data } = await axios(`${process.env.NEXT_PUBLIC_API_HOST}/api/search/autocomplete?q=${text}`);
-    setSuggestions(data);
-    setSearchString(text);
+  const debounceInput = useDebounce((newText: React.SetStateAction<string>) => { setSearchString(newText) }, 300);
+
+  useEffect(() => {
+    setDisplay(true);
+    if (searchString.length > 2) {
+      const response = axios.get(`${process.env.NEXT_PUBLIC_API_HOST}/api/search/autocomplete?q=${searchString}`);
+      response.then(({ data }) => {
+        setSuggestions(data);
+      });
+    }
+  }, [searchString]);
+
+  const onSuggestionClick = (text: string) => {
+    setSuggestions([]);
+    setDisplay(false);
+    onSearch(searchString);
   };
+  
   const onSubmit = async (event: React.FormEvent<HTMLFormElement>) => {
     event.preventDefault();
+    setSearchString('');
     setSuggestions([]);
     onSearch(searchString);
   }
-  const onSuggestHandler = (text:string) => {
-    setSearchString(text);
-    onSearch(text);
-    setSuggestions([]);
-  }
 
-  const handleKeyPress = (event: React.KeyboardEvent<HTMLInputElement>) => {
-    if (event.key === 'Enter') {
-      onSearch(searchString);
+  useEffect(() => {
+    window.addEventListener("mousedown", handleClickOutside);
+    return () => {
+      window.removeEventListener("mousedown", handleClickOutside);
+    };
+  });
+
+  const handleClickOutside = (event: { target: any; }) => {
+    const { current: wrap } = wrapperRef;
+    if (wrap && !wrap.contains(event.target)) {
+      setDisplay(false);
     }
-  }
+  };
 
   return (
-    <Form onSubmit={onSubmit}>
+    <Form ref={wrapperRef} onSubmit={onSubmit}>
       <Flex>
-        <InputField 
+        <InputField
           id="searchField"
           type="search"
-          onChange={e => onChange(e.target.value)}
-          onKeyPress={handleKeyPress}
+          onClick={() => setDisplay(true)}
+          onChange={event => debounceInput(event.target.value) }
           placeholder="Search..."
           withButton
           autoComplete="off"
-          value={searchString}
-          // onBlur={() => setSuggestions([])}
         />
-        {suggestions.length > 0 && 
+        {display && suggestions.length > 0 && 
           <List>
-          {suggestions.map((suggestion, index) => <ListItem key={`${suggestion}.${index}`} onClick={() => onSuggestHandler(suggestion)}>{suggestion}</ListItem> )}
+          {suggestions.map((suggestion, index) => <ListItem key={`${suggestion}.${index}`} onClick={() => onSuggestionClick(suggestion)}>{suggestion}</ListItem> )}
           </List>
         }
         <Button withInput><RiSearch2Line /></Button>
