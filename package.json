@@ -33,9 +33,10 @@
 		"swr": "^2.1.0"
 	},
 	"devDependencies": {
+		"@types/hoist-non-react-statics": "^3.3.1",
 		"@types/jest": "^29.4.0",
 		"@types/mocha": "^10.0.1",
-		"@types/node": "^18.14.6",
+		"@types/node": "^18.15.0",
 		"@types/react": "^18.0.28",
 		"@types/styled-components": "^5.1.26",
 		"@types/supertest": "^2.0.12",

@@ -1,7 +1,7 @@
 import fs from 'fs';
 import path from 'path';
 import type { NextApiResponse, NextApiRequest } from 'next';
-import { connectToDatabase } from '../../lib/mongodb';
+import clientPromise from '../../lib/mongodb';
 
 const getMostRecentFile = (dir: string) => {
 	const files = orderReccentFiles(dir);
@@ -21,7 +21,8 @@ export default async function handler(
 	res: NextApiResponse<{ msg: string }>
 ) {
 	try {
-		const { db } = await connectToDatabase();
+		const client = await clientPromise;
+		const db = client.db('magic');
 		const cardData = getMostRecentFile('./bulkdata') as { file: string }; // where to save a file
 		const cards = JSON.parse(
 			fs.readFileSync(`bulkdata/${cardData.file}`, 'utf8')

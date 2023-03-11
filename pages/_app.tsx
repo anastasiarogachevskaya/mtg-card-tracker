@@ -1,5 +1,6 @@
 import type { AppProps } from 'next/app';
 import { ThemeProvider } from 'styled-components';
+import { SessionProvider } from 'next-auth/react';
 
 import { useDarkMode } from '../lib/useDarkMode';
 import { lightTheme, darkTheme, GlobalStyle } from '../theme/themes';
@@ -14,9 +15,10 @@ export default function App({
 	return (
 		<ThemeProvider theme={themeMode}>
 			<GlobalStyle />
-
-			<Header theme={theme} toggleTheme={toggleTheme} />
-			<Component {...pageProps} />
+			<SessionProvider session={session}>
+				<Header theme={theme} toggleTheme={toggleTheme} />
+				<Component {...pageProps} />
+			</SessionProvider>
 		</ThemeProvider>
 	);
 }

@@ -1,50 +1,39 @@
 {
-  "compilerOptions": {
-    "target": "ES2018",
-    "module": "commonjs",
-    "lib": [
-      "es2018",
-      "dom",
-    ],
-    "declaration": true,
-    "strict": true,
-    "noImplicitAny": true,
-    "strictNullChecks": true,
-    "noImplicitThis": true,
-    "alwaysStrict": true,
-    "noUnusedLocals": false,
-    "noUnusedParameters": false,
-    "noImplicitReturns": true,
-    "noFallthroughCasesInSwitch": false,
-    "inlineSourceMap": true,
-    "inlineSources": true,
-    "experimentalDecorators": true,
-    "strictPropertyInitialization": false,
-    "typeRoots": [
-      "./node_modules/@types"
-    ],
-    "allowJs": true,
-    "skipLibCheck": true,
-    "forceConsistentCasingInFileNames": true,
-    "noEmit": true,
-    "esModuleInterop": true,
-    "moduleResolution": "node",
-    "resolveJsonModule": true,
-    "isolatedModules": true,
-    "jsx": "preserve",
-    "incremental": true
-  },
-  "plugins": [
-    {
-      "name": "typescript-styled-plugin"
-    }
-  ],
-  "include": [
-    "next-env.d.ts",
-    "**/*.ts",
-    "**/*.tsx"
-  ],
-  "exclude": [
-    "node_modules"
-  ]
+	"compilerOptions": {
+		"target": "ES2018",
+		"module": "commonjs",
+		"lib": ["es2018", "dom"],
+		"declaration": true,
+		"strict": true,
+		"noImplicitAny": true,
+		"strictNullChecks": true,
+		"noImplicitThis": true,
+		"alwaysStrict": true,
+		"noUnusedLocals": false,
+		"noUnusedParameters": false,
+		"noImplicitReturns": true,
+		"noFallthroughCasesInSwitch": false,
+		"inlineSourceMap": true,
+		"inlineSources": true,
+		"experimentalDecorators": true,
+		"strictPropertyInitialization": false,
+		"typeRoots": ["./node_modules/@types"],
+		"allowJs": true,
+		"skipLibCheck": true,
+		"forceConsistentCasingInFileNames": true,
+		"noEmit": true,
+		"esModuleInterop": true,
+		"moduleResolution": "node",
+		"resolveJsonModule": true,
+		"isolatedModules": true,
+		"jsx": "preserve",
+		"incremental": true
+	},
+	"plugins": [
+		{
+			"name": "typescript-styled-plugin"
+		}
+	],
+	"include": ["next-env.d.ts", "global.d.ts", "**/*.ts", "**/*.tsx"],
+	"exclude": ["node_modules"]
 }

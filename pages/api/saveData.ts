@@ -3,13 +3,13 @@ import axios from 'axios';
 import type { NextApiRequest, NextApiResponse } from 'next';
 import https from 'https';
 import fs from 'fs';
-import { connectToDatabase } from '../../lib/mongodb';
+import clientPromise from '../../lib/mongodb';
 
 export default async function handler(
 	req: NextApiRequest,
 	res: NextApiResponse<{ msg: string }>
 ) {
-	const { db } = await connectToDatabase();
+	const { db } = await clientPromise;
 	const { data } = await axios(
 		'https://api.scryfall.com/bulk-data/default_cards'
 	);
