@@ -56,18 +56,18 @@ export async function getServerSideProps(context: {
 }) {
 	const { set: cardSet, collector_number: cardNum } = context.params;
 	const { req } = context;
-	// const session = await getSession({ req });
-	// const { data: decks } = await axios.get(
-	// 	`${process.env.NEXT_PUBLIC_API_HOST}/api/decks/get?email=${
-	// 		session?.user!.email
-	// 	}`
-	// );
-	// decks.map((deck: { name: string; _id: string }) => {
-	// 	return {
-	// 		deckName: deck.name,
-	// 		deckId: deck._id,
-	// 	};
-	// });
+	const session = await getSession({ req });
+	const { data: decks } = await axios.get(
+		`${process.env.NEXT_PUBLIC_API_HOST}/api/decks/get?email=${
+			session?.user!.email
+		}`
+	);
+	decks.map((deck: { name: string; _id: string }) => {
+		return {
+			deckName: deck.name,
+			deckId: deck._id,
+		};
+	});
 	const { data } = await axios(
 		`${process.env.NEXT_PUBLIC_API_HOST}/api/card?set=${cardSet}&collectorNumber=${cardNum}`
 	);
@@ -75,8 +75,8 @@ export async function getServerSideProps(context: {
 	return {
 		props: {
 			cardInfo: data.card[0],
-			// auth: session ? true : false,
-			// decks: session ? decks : [],
+			auth: session ? true : false,
+			decks: session ? decks : [],
 			error: !data ? true : false,
 		},
 	};

@@ -1,6 +1,5 @@
-export type SessionProps = {
-  user: {
-    email: string,
-    name: string,
-  }
+export type UserProps = {
+	email: string;
+	name: string;
+	image: string;
 };
