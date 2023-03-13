@@ -36,3 +36,4 @@ docker-compose.override.yml
 .env
 data/*
 bulkdata/*
+old
