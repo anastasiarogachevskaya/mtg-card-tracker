@@ -1,5 +1,6 @@
 import React, { useState, useEffect } from 'react';
 import axios from 'axios';
+import Link from 'next/link';
 
 import { SingleDeckProps } from '../../types/Deck/SingleDeckProps';
 
@@ -28,7 +29,11 @@ const DeckList = ({ email }: { email: string }) => {
 			<h2>Deck List</h2>
 			{!loading &&
 				decks.map((deck: SingleDeckProps) => {
-					return <div key={deck._id}>{deck.deck}</div>;
+					return (
+						<Link href={`/user/decks/${deck._id}`} key={deck._id}>
+							{deck.deck}
+						</Link>
+					);
 				})}
 		</div>
 	);

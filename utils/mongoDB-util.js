@@ -16,6 +16,7 @@ export async function insertDocument(client, collection, document) {
 export async function getDecks(client, collection, email) {
 	const db = client.db('magic');
 	const decks = await db.collection(collection).find({ user: email }).toArray();
+	console.log(decks);
 	return decks;
 }
 
@@ -35,7 +36,6 @@ export async function getCardsByPartialString(
 		.find(filter)
 		.limit(limit)
 		.toArray();
-	client.close();
 	if (namesOnly) {
 		return cards.map((card) => card.name);
 	}
@@ -51,7 +51,6 @@ export async function getSingleCard(client, set, collectorNumber) {
 			collector_number: collectorNumber,
 		})
 		.toArray();
-	client.close();
 	return card;
 }
 
@@ -76,11 +75,16 @@ export async function addCardToDeck(client, deckId, card) {
 		cards: [...deck.cards, cardToAdd],
 	};
 
-	console.log(updatedDeck);
-
 	const result = await db
 		.collection('decks')
 		.replaceOne({ _id: ObjectId(deckId) }, updatedDeck);
 
 	return result;
+}
+
+export async function findDeckById(client, deckId) {
+	console.log(deckId);
+	const db = client.db('magic');
+	const deck = await db.collection('decks').findOne({ _id: ObjectId(deckId) });
+	return deck;
 }
