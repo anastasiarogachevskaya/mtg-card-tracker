@@ -20,6 +20,7 @@ import {
 	StyledCheckboxWrapper,
 } from './ModalParts';
 import axios from 'axios';
+import Alert from '../../elements/Alert/Alert';
 
 type ModalProps = {
 	cardInfo: SingleCardProps;
@@ -31,6 +32,8 @@ const Modal = ({ setIsOpen, decks, cardInfo }: ModalProps) => {
 	const [checked, setChecked] = useState(false);
 	const initialArray: any[] | (() => any[]) = [];
 	const [decksToUpdate, setDecksToUpdate] = useState(initialArray);
+	const [errorMessage, setErrorMessage] = useState('');
+
 	const handleCheckboxChange = (event: {
 		target: {
 			checked: boolean | ((prevState: boolean) => boolean);
@@ -58,7 +61,6 @@ const Modal = ({ setIsOpen, decks, cardInfo }: ModalProps) => {
 	};
 
 	const handleAddCardToDeck = async (deckIds: string[]) => {
-		console.log('Adding cards to deck: ' + deckIds);
 		try {
 			await axios.post('/api/decks/add-card', {
 				deckIds,
@@ -67,6 +69,9 @@ const Modal = ({ setIsOpen, decks, cardInfo }: ModalProps) => {
 			setIsOpen(false);
 		} catch (error) {
 			console.error(error);
+			setErrorMessage(
+				'There was an error adding the card to the selected decks.'
+			);
 		}
 	};
 
@@ -81,17 +86,12 @@ const Modal = ({ setIsOpen, decks, cardInfo }: ModalProps) => {
 					<StyledCloseButton onClick={() => setIsOpen(false)}>
 						<RiCloseLine style={{ marginBottom: '-3px' }} />
 					</StyledCloseButton>
+					<Alert type='error'>{errorMessage}</Alert>
 					<StyledContent>Pick a deck:</StyledContent>
 					<StyledCheckboxWrapper>
 						{decks.map(({ _id: deckId, deck: deckName }) => {
 							return (
 								<StyledLabel key={deckId} htmlFor={deckId}>
-									{/* <Checkbox
-								value={deckId}
-								// checked={checked}
-								checked={checkedState[index]}
-								onChange={() => handleOnChange(index)}
-							/> */}
 									<input
 										type='checkbox'
 										id={deckId}
