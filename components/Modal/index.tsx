@@ -58,6 +58,7 @@ const Modal = ({ setIsOpen, decks, cardInfo }: ModalProps) => {
 	};
 
 	const handleAddCardToDeck = async (deckIds: string[]) => {
+		console.log('Adding cards to deck: ' + deckIds);
 		try {
 			await axios.post('/api/decks/add-card', {
 				deckIds,
@@ -69,7 +70,6 @@ const Modal = ({ setIsOpen, decks, cardInfo }: ModalProps) => {
 		}
 	};
 
-	console.log(decksToUpdate);
 	return (
 		<>
 			<StyledDarkBg />
@@ -107,7 +107,7 @@ const Modal = ({ setIsOpen, decks, cardInfo }: ModalProps) => {
 						<StyledActionsContainer>
 							<StyledAddButton
 								onClick={() => {
-									handleAddCardToDeck(decksToUpdate[0]);
+									handleAddCardToDeck(decksToUpdate);
 									setIsOpen(false);
 								}}
 							>
