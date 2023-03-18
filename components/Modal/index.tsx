@@ -19,6 +19,8 @@ import {
 	StyledLabel,
 	StyledCheckboxWrapper,
 } from './ModalParts';
+import axios from 'axios';
+import Alert from '../../elements/Alert/Alert';
 
 type ModalProps = {
 	cardInfo: SingleCardProps;
@@ -30,6 +32,7 @@ const Modal = ({ setIsOpen, decks, cardInfo }: ModalProps) => {
 	const [checked, setChecked] = useState(false);
 	const initialArray: any[] | (() => any[]) = [];
 	const [decksToUpdate, setDecksToUpdate] = useState(initialArray);
+	const [errorMessage, setErrorMessage] = useState('');
 
 	const handleCheckboxChange = (event: {
 		target: {
@@ -57,7 +60,21 @@ const Modal = ({ setIsOpen, decks, cardInfo }: ModalProps) => {
 		}
 	};
 
-	console.log(decksToUpdate);
+	const handleAddCardToDeck = async (deckIds: string[]) => {
+		try {
+			await axios.post('/api/decks/add-card', {
+				deckIds,
+				card: cardInfo,
+			});
+			setIsOpen(false);
+		} catch (error) {
+			console.error(error);
+			setErrorMessage(
+				'There was an error adding the card to the selected decks.'
+			);
+		}
+	};
+
 	return (
 		<>
 			<StyledDarkBg />
@@ -69,17 +86,12 @@ const Modal = ({ setIsOpen, decks, cardInfo }: ModalProps) => {
 					<StyledCloseButton onClick={() => setIsOpen(false)}>
 						<RiCloseLine style={{ marginBottom: '-3px' }} />
 					</StyledCloseButton>
+					<Alert type='error'>{errorMessage}</Alert>
 					<StyledContent>Pick a deck:</StyledContent>
 					<StyledCheckboxWrapper>
-						{decks.map(({ _id: deckId, deck: deckName }, index) => {
+						{decks.map(({ _id: deckId, deck: deckName }) => {
 							return (
 								<StyledLabel key={deckId} htmlFor={deckId}>
-									{/* <Checkbox
-                  value={deckId}
-                  // checked={checked}
-                  checked={checkedState[index]}
-                  onChange={() => handleOnChange(index)}
-                /> */}
 									<input
 										type='checkbox'
 										id={deckId}
@@ -93,7 +105,12 @@ const Modal = ({ setIsOpen, decks, cardInfo }: ModalProps) => {
 					</StyledCheckboxWrapper>
 					<StyledActions>
 						<StyledActionsContainer>
-							<StyledAddButton onClick={() => setIsOpen(false)}>
+							<StyledAddButton
+								onClick={() => {
+									handleAddCardToDeck(decksToUpdate);
+									setIsOpen(false);
+								}}
+							>
 								Add
 							</StyledAddButton>
 							<StyledCancelButton onClick={() => setIsOpen(false)}>
