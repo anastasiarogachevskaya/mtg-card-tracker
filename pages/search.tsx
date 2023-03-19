@@ -58,9 +58,7 @@ export async function getServerSideProps(context: { query: { q: string } }) {
 	const { data } = await axios(
 		`${process.env.NEXT_PUBLIC_API_HOST}/api/search?q=${q}`
 	);
-	console.log(`${process.env.NEXT_PUBLIC_API_HOST}/api/search?q=${q}`);
 	const { total_cards: totalCards, cards } = data;
-	console.log(totalCards);
 
 	return {
 		props: {

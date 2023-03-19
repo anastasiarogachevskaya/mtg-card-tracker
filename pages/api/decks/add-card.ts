@@ -17,8 +17,6 @@ export default async function addCardsHandler(
 	if (req.method === 'POST') {
 		const { deckIds, card } = req.body;
 
-		console.log('deckIds', deckIds);
-
 		try {
 			const results = await Promise.all(
 				deckIds.map(async (deckId: string) => {
@@ -28,7 +26,7 @@ export default async function addCardsHandler(
 
 			return res.status(200).json({ msg: 'ADDED', results });
 		} catch (error) {
-			console.log(error);
+			console.error(error);
 			res.status(500).json({ message: 'Creating failed' });
 		}
 	}

@@ -1,7 +1,7 @@
-import React, { useState, useRef, useContext, useEffect } from 'react';
+import React, { useState, useRef } from 'react';
 import axios from 'axios';
 import styled from 'styled-components';
-import { signOut } from 'next-auth/react';
+import { signOut, useSession } from 'next-auth/react';
 import { FaPlus } from 'react-icons/fa';
 import { BiLoaderCircle } from 'react-icons/bi';
 import { MdDone } from 'react-icons/md';
@@ -13,8 +13,9 @@ import Spacer from '../../elements/UI/Spacer';
 
 import DeckList from './DeckList';
 
-import { UserProps } from '../../types/Session';
-import UserContext from '../../context/userContext';
+import { Form, FormInput } from '../../elements/Form/Form';
+import { StyledSelect } from '../../elements/Form/Select';
+import Label from '../../elements/Form/Label';
 
 const Container = styled.div`
 	margin: 1em;
@@ -37,18 +38,40 @@ type User = Optional<{
 	name: string;
 	email: string;
 	image: string;
+	currency?: 'USD' | 'EUR';
 }>;
 
 const Profile = ({ user }: { user: User }) => {
 	if (!user) {
 		return <Container>Please log in to view your profile.</Container>;
 	}
+	const { data: session } = useSession();
+	const [currency, setCurrency] = useState(user.currency ?? 'USD');
 
 	const [start, setStart] = useState(false);
 	const [loading, setLoading] = useState(false);
 	const [done, setDone] = useState(false);
 	const [failed, setFailed] = useState(false);
 	const deckName = useRef() as React.RefObject<HTMLInputElement>;
+	const handleCurrencyChange = (
+		event: React.ChangeEvent<HTMLSelectElement>
+	) => {
+		setCurrency(event.target.value);
+	};
+
+	const handleSave = async (
+		event:
+			| { preventDefault: () => void }
+			| React.MouseEvent<HTMLButtonElement, MouseEvent>
+	) => {
+		event.preventDefault();
+		try {
+			const response = await axios.patch('/api/user/update', { currency });
+			console.log(response.data); // { success: true }
+		} catch (error) {
+			console.error(error);
+		}
+	};
 
 	const { name, email } = user;
 
@@ -83,6 +106,47 @@ const Profile = ({ user }: { user: User }) => {
 		<Container>
 			<PageTitle>Profile</PageTitle>
 			<Text>Welcome, {name}!</Text>
+
+			<Form>
+				<FormInput
+					label='Name'
+					type='text'
+					name='Name'
+					value={user.name}
+					readOnly
+				/>
+				<FormInput
+					label='Email'
+					type='email'
+					name='Email'
+					value={user.email}
+					readOnly
+				/>
+				{user.image && (
+					<FormInput
+						label='Image'
+						type='text'
+						name='Image'
+						value={user.image}
+						readOnly
+					/>
+				)}
+
+				<Label>Currency</Label>
+				<StyledSelect
+					width='75px'
+					name='select'
+					id='currency'
+					value={currency}
+					onChange={handleCurrencyChange}
+				>
+					<option value='USD'>USD</option>
+					<option value='EUR'>EUR</option>
+				</StyledSelect>
+				<ButtonEl onClick={(e) => handleSave(e)} style={{ alignSelf: 'end' }}>
+					Save
+				</ButtonEl>
+			</Form>
 			<Flex>
 				<ButtonEl onClick={startHandler}>Add new deck</ButtonEl>
 				{start && (
@@ -105,6 +169,7 @@ const Profile = ({ user }: { user: User }) => {
 			</Flex>
 
 			{email && <DeckList email={email} />}
+
 			<ButtonEl onClick={() => signOut()}>Sign Out</ButtonEl>
 		</Container>
 	);

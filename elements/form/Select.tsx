@@ -1,9 +1,13 @@
 import styled from 'styled-components';
 
-const InputField = styled.input<{ withButton?: boolean; width?: string }>`
+interface SelectProps {
+	width?: string;
+}
+
+export const StyledSelect = styled.select<SelectProps>`
 	background: ${({ theme }) => theme.inputFieldBGColor};
 	border: none;
-	border-radius: ${({ withButton }) => (withButton ? '5px 0 0 5px' : '5px')};
+	border-radius: 5px;
 	box-shadow: inset 0 1px 3px 0 rgb(0 0 0 / 8%);
 	color: ${({ theme }) => theme.inputFieldColor};
 	font-size: 16px;
@@ -14,7 +18,7 @@ const InputField = styled.input<{ withButton?: boolean; width?: string }>`
 	padding: 0 20px;
 	transition: all 0.4s ease;
 	width: ${({ width }) => width || '100%'};
-	box-sizing: border-box;
+	padding: 10px;
 
 	&:hover,
 	&:active,
@@ -22,6 +26,11 @@ const InputField = styled.input<{ withButton?: boolean; width?: string }>`
 	&:target {
 		background: ${({ theme }) => theme.inputFieldBGColorHover};
 	}
-`;
 
-export default InputField;
+	option {
+		color: ${({ theme }) => theme.inputFieldColor};
+		background-color: ${({ theme }) => theme.inputFieldBGColor};
+		border: none;
+		outline: none;
+	}
+`;

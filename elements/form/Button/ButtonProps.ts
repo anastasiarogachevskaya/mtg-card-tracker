@@ -13,4 +13,5 @@ export type ButtonElementProps = ButtonProps & {
 			| { preventDefault: () => void }
 			| React.MouseEvent<HTMLButtonElement, MouseEvent>
 	) => void;
+	style?: React.CSSProperties;
 };

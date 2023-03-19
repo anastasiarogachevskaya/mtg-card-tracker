@@ -36,7 +36,7 @@ async function handler(req: NextApiRequest, res: NextApiResponse) {
 			newDeck._id = result.insertedId;
 			res.status(201).json({ message: 'Deck created', deck: newDeck });
 		} catch (error) {
-			console.log(error);
+			console.error(error);
 			res.status(500).json({ message: 'Creating failed' });
 		}
 	}

@@ -16,7 +16,6 @@ export async function insertDocument(client, collection, document) {
 export async function getDecks(client, collection, email) {
 	const db = client.db('magic');
 	const decks = await db.collection(collection).find({ user: email }).toArray();
-	console.log(decks);
 	return decks;
 }
 
@@ -83,7 +82,6 @@ export async function addCardToDeck(client, deckId, card) {
 }
 
 export async function findDeckById(client, deckId) {
-	console.log(deckId);
 	const db = client.db('magic');
 	const deck = await db.collection('decks').findOne({ _id: ObjectId(deckId) });
 	return deck;

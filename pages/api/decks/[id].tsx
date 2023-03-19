@@ -7,8 +7,6 @@ async function handler(req: NextApiRequest, res: NextApiResponse) {
 	}
 
 	const deckId = req.query.id as string;
-	console.log('deckId', deckId);
-
 	let client;
 	try {
 		client = await connectDatabase();

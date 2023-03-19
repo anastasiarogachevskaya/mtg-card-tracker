@@ -16,7 +16,6 @@ if (!MONGODB_DB) {
 	);
 }
 
-const uri = process.env.MONGODB_URI;
 const options = {};
 
 let client;

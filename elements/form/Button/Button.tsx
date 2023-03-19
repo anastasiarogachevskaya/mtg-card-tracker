@@ -31,8 +31,16 @@ const Link = styled.a`
 `;
 
 const ButtonEl = (props: ButtonElementProps) => {
-	const { href, withInput, children, onClick, padding, background, color } =
-		props;
+	const {
+		href,
+		withInput,
+		children,
+		onClick,
+		padding,
+		background,
+		color,
+		style,
+	} = props;
 	if (href) {
 		return <Link href={href}>{children}</Link>;
 	}
@@ -43,6 +51,7 @@ const ButtonEl = (props: ButtonElementProps) => {
 			padding={padding}
 			background={background}
 			color={color}
+			style={style}
 		>
 			{children}
 		</Button>

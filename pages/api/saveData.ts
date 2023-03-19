@@ -17,7 +17,6 @@ export default async function handler(
 	const path = `bulkdata/${data.id}.json`;
 	try {
 		if (fs.existsSync(path)) {
-			console.log('exists');
 			res.status(200).json({ msg: 'No need for update' });
 		} else {
 			fs.writeFile(path, '', function (err) {
